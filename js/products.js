@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 function MostrarListaProductos(datos) {
 
-let divinteres = document.getElementsByTagName("div")[1];
+let divinteres = document.getElementById("ContenedorLista");
 divinteres.innerHTML = "";
 
 
