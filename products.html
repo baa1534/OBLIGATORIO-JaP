@@ -31,7 +31,7 @@
 
 
       <!-- CREO ESTA DIVISION DONDE ORGANIZO LAS OPCIONES DE PRECIO: RANGO Y TIPO DE MONEDA PARA QUE EL USUARIO SELECCIONE-->
-      <div style="float: left; margin: 3rem">
+      <div style="float: left; margin: 3rem; border-style: solid; border-radius: 1rem; border-width: thin; padding: 1rem;">
         <label for="CuadroFiltroXPrecio"> <strong>Precio</strong></label>
           <hr>
         <div id="CuadroFiltroXPrecio" style="float: left">
@@ -56,6 +56,13 @@
               <br> <br>
               <input type="number" id="InputPrecioMin" placeholder="Min."> 
             </div>
+          </div>
+
+          <br>
+
+          <!--BOTONES PARA FILTRAR O RESETEAR LO QUE HAYA SELECCIONADO-->
+          <div style="text-align: center">
+            <input type="button" id="InputFiltrar" value="Filtrar"> <input type="button" id="InputReset" value="Reset">
           </div>
   
 
