@@ -45,36 +45,17 @@ var getJSONData = function(url){
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function(e){
 
-//QUERIA QUE TODOS LOS HTML TUVIESEN EL NOMBRE DE USUARIO EN LA BARRA DE ARRIBA, COMO TODOS LOS HTML TIENEN UN NAV, PUEDO LLAMAR POR TAG AL NAV DEL HTML, Y SIEMPRE LO VA A ENTENDER
 
-let DivInteres = document.querySelectorAll("nav > div"); //QUIERO ESTAR DENTRO DEL DIV PARA TENER LAS MISMAS CLASES
-
-let EspacioUsuario = document.createElement("div"); // CREO OTRA DIVISION PARA CONTENER LA INFO QUE VOY A AGREGAR
-EspacioUsuario.id = "EspacioUsuario";
-EspacioUsuario.style = "display: none"; 
-DivInteres[0].appendChild(EspacioUsuario); // ES UN ARRAY, SI NO LE DOY INDEX NO ENTIENDE, POR MAS QUE TENGA SOLO UN ELEMENTO. LO METO ADENTRO DEL DIV CON FORMATOS
-
-let ParrafoUsuario = document.createElement("p"); // EN ESTE PARRAFO VOY A PONER EL NOMBRE
-ParrafoUsuario.id = "ParrafoUsuario";
-EspacioUsuario.appendChild(ParrafoUsuario); // LO METO EN EL DIV CREADO
-
-let InputSalida = document.createElement("input"); // CREO EL BOTON DE SALIDA
-InputSalida.type = "button";
-InputSalida.id = "InputSalida";
-InputSalida.value = "Salir";
-EspacioUsuario.appendChild(InputSalida); // LO METO EN EL DIV CREADO
-
-
-
-//alert(VarPrueba.length);
+let VarPrueba = document.getElementsByTagName("nav");
+alert(VarPrueba);
 
 //let ParrPrueba = document.createElement('p');
 //ParrPrueba.textContent = "PRUEBA";
 //VarPrueba[0].appendChild(ParrPrueba);
 
-//let EspacioUsuario = document.getElementById("EspacioUsuario");
+let EspacioUsuario = document.getElementById("EspacioUsuario");
 
-//let ParrafoUsuario = document.getElementById("ParrafoUsuario");
+let ParrafoUsuario = document.getElementById("ParrafoUsuario");
 
 let UsuarioLoggeado = localStorage.getItem("NombreUsuario");
 
