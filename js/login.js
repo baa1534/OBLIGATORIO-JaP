@@ -17,8 +17,9 @@ if (UserName.value === "" || PassWord.value === ""){
 } else {
 
    if (UserName.value == "usuario" && PassWord.value == "usuario"){
-       alert("Autenticacion exitosa!")
-window.location = "inicio.html";
+        alert("Autenticacion exitosa!");
+        window.location = "inicio.html";
+        localStorage.setItem("NombreUsuario", JSON.stringify(UserName.value));
 
     } else {
        alert("Login de prueba! Ingresar con Usuario: usuario y Contraseña: usuario");

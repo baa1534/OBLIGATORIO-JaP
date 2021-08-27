@@ -44,4 +44,28 @@ var getJSONData = function(url){
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function(e){
+
+let EspacioUsuario = document.getElementById("EspacioUsuario");
+
+let ParrafoUsuario = document.getElementById("ParrafoUsuario");
+
+let UsuarioLoggeado = localStorage.getItem("NombreUsuario");
+
+if (UsuarioLoggeado){ //SI EL USUARIO NO SE LOGGEA, ESTA VARIABLE "NombreUsuario" NO SE CREA
+
+UsuarioLoggeado = JSON.parse(UsuarioLoggeado); //MODIFICO MI VARIABLE PARA PASAR SU CONTENIDO DE JSON A JS
+ParrafoUsuario.innerText = "Sesion:" + UsuarioLoggeado;
+EspacioUsuario.style = "display: inline-block";
+
+}
+
+if (document.getElementById("InputSalida")){
+  document.getElementById("InputSalida").addEventListener("click", function(){
+
+    localStorage.removeItem("NombreUsuario");
+    window.location = "index.html";
+
+  })
+}
+
 });
