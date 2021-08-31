@@ -36,11 +36,70 @@ cuerpotabla.style.textAlign = "center"
 tabla.appendChild(cuerpotabla);
 divinteres.appendChild(tabla);
 
+
+// --------------------------------------FILTRAR YA SEGUN RANGO DE PRECIOS, SE EJECUTA APRETANDO EL BOTON DE FILTRO ----------------------------------------------------
+
 let datos = DatosOrig.filter(producto => {
 
 return (PrecioMin == undefined || (PrecioMin != undefined && producto.cost >= PrecioMin)) && (PrecioMax == undefined || (PrecioMax != undefined && producto.cost <= PrecioMax));
 
 })
+// -------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+// -------------------------------------- PARA ORDENAR, SE EJECUTA APRETANDO EL BOTON DE FILTRO ----------------------------------------------
+
+//SI ELEGIMOS ORDENAR LOS PRODUCTOS POR RELEVANCIA, SIENDO LA RELEVANCIA MEDIDA POR CANTIDAD VENDIDOS
+//YA ME REDEFINO EL ARRAY DATOS QUE TENIA ANTES FILTRADO POR RANGO DE PRECIOS
+if (document.getElementById("InputOrdenarPor").value == "Relevancia"){
+    datos = datos.sort(function (a, b) {
+        if (a.soldCount < b.soldCount) {
+          return 1;
+        }
+        if (a.soldCount > b.soldCount) {
+          return -1;
+        }
+        
+        return 0;
+      });
+}
+
+
+//SI ELEGIMOS ORDENAR POR PRECIO, DE MENOR A MAYOR
+//YA ME REDEFINO EL ARRAY DATOS QUE TENIA ANTES FILTRADO POR RANGO DE PRECIOS
+if (document.getElementById("InputOrdenarPor").value == "MenorMayorPrecio"){
+    datos = datos.sort(function (a, b) {
+        if (a.cost > b.cost) {
+          return 1;
+        }
+        if (a.cost < b.cost) {
+          return -1;
+        }
+        
+        return 0;
+      });
+}
+
+
+
+//SI ELEGIMOS ORDENAR POR PRECIO, DE MAYOR A MENOR
+//YA ME REDEFINO EL ARRAY DATOS QUE TENIA ANTES FILTRADO POR RANGO DE PRECIOS
+if (document.getElementById("InputOrdenarPor").value == "MayorMenorPrecio"){
+    datos = datos.sort(function (a, b) {
+        if (a.cost < b.cost) {
+          return 1;
+        }
+        if (a.cost > b.cost) {
+          return -1;
+        }
+        
+        return 0;
+      });
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------ 
 
 datos.forEach(producto => {
     
@@ -67,6 +126,8 @@ datos.forEach(producto => {
     
             });
 
+
+
         }
   
 
@@ -82,14 +143,14 @@ Moneda = document.getElementById("InputMoneda").value;
 let AuxMax = 0;
 let AuxMin = 0;
 
-alert("El filtro anda");
+//alert("El filtro anda");
 
 if((PrecioMax != undefined) && (PrecioMax != "") && (parseInt(PrecioMax) > 0)){ //QUE ERROR PODRIA HABER SI MI CONDICION ES UNICAMENTE QUE EL PARSEINT DEL PRECIO MINIMO SEA MAYOR A CERO?
     PrecioMax = parseInt(PrecioMax);
     AuxMax = 1;
 
 } else {
-    alert("elegi otro maximo");
+    //alert("elegi otro maximo");
     PrecioMax = undefined;
     document.getElementById("InputPrecioMax").value = ""; // QUE NO ME SIGA MOSTRANDO EL VALOR QUE ESTA MAL
     
@@ -102,7 +163,7 @@ if((PrecioMin != undefined) && (PrecioMin != "") && (parseInt(PrecioMin) > 0)){
     AuxMin = 1;
     
 } else {
-    alert("elegi otro minimo");
+    //alert("elegi otro minimo");
     PrecioMin = undefined;
     document.getElementById("InputPrecioMin").value = ""; // QUE NO ME SIGA MOSTRANDO EL VALOR QUE ESTA MAL
     
@@ -112,8 +173,8 @@ if((PrecioMin != undefined) && (PrecioMin != "") && (parseInt(PrecioMin) > 0)){
 if (((AuxMax === 1) && (AuxMin ===1)) && (PrecioMin >= PrecioMax)){
     PrecioMax = parseInt(document.getElementById("InputPrecioMin").value);
     PrecioMin = parseInt(document.getElementById("InputPrecioMax").value);
-    alert (PrecioMin);
-    alert (PrecioMax);
+    //alert (PrecioMin);
+    //alert (PrecioMax);
     document.getElementById("InputPrecioMin").value = PrecioMin;
     document.getElementById("InputPrecioMax").value = PrecioMax;
 }
@@ -133,7 +194,7 @@ document.getElementById("InputResetBtn").addEventListener("click", function() {
     document.getElementById("InputPrecioMax").value = "";
     document.getElementById("InputMoneda").value = "ElijeMoneda";
 
-    alert("El reset anda");
+    //alert("El reset anda");
     
     MostrarListaProductos(datosUtiles); //TIENE QUE VOLVER A CORRER CON LOS VALORES DEL FILTRO
     
