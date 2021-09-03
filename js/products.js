@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
 let PrecioMin = undefined;
 let PrecioMax = undefined;
 let Moneda = undefined;
+let palabras = undefined;
+let ordenarPor = "Relevancia";
 
 // VEAMOS SI TENEMOS ALGUN PROBLEMA CON EL JSON ANTES DE PONERNOS A HACER NADA CON LOS DATOS
 
@@ -19,6 +21,8 @@ let Moneda = undefined;
           alert (datosTraidos.data) ;
         }
     });
+
+
 
 // SI getJSONData FUNCIONA, TRABAJO CON LOS DATOS LEVANTADOS
 
@@ -44,60 +48,57 @@ let datos = DatosOrig.filter(producto => {
 return (PrecioMin == undefined || (PrecioMin != undefined && producto.cost >= PrecioMin)) && (PrecioMax == undefined || (PrecioMax != undefined && producto.cost <= PrecioMax));
 
 })
-// -------------------------------------------------------------------------------------------------------------------------------------------
+
+datos = datos.filter(producto => {
+
+  return ((palabras == undefined) || (palabras == "")  || (producto.name.toLowerCase().indexOf(palabras) != -1) || (producto.description.toLowerCase().indexOf(palabras) != -1));
+  
+  })
 
 
+if (ordenarPor == "Relevancia")  {
+
+  datos = datos.sort(function (a, b) {
+    if (a.soldCount < b.soldCount) {
+      return 1;
+    }
+    if (a.soldCount > b.soldCount) {
+      return -1;
+    }
+    
+    return 0;
+  })
+};
+
+if (ordenarPor == "MenorMayorPrecio"){
+  
+  datos = datos.sort(function (a, b) {
+    if (a.cost > b.cost) {
+      return 1;
+    }
+    if (a.cost < b.cost) {
+      return -1;
+    }
+    
+    return 0;
+  })
+};
+
+if (ordenarPor == "MayorMenorPrecio"){
+  
+  datos = datos.sort(function (a, b) {
+    if (a.cost < b.cost) {
+      return 1;
+    }
+    if (a.cost > b.cost) {
+      return -1;
+    }
+    
+    return 0;
+  })
+};
 
 
-// -------------------------------------- PARA ORDENAR, SE EJECUTA APRETANDO EL BOTON DE FILTRO ----------------------------------------------
-
-//SI ELEGIMOS ORDENAR LOS PRODUCTOS POR RELEVANCIA, SIENDO LA RELEVANCIA MEDIDA POR CANTIDAD VENDIDOS
-//YA ME REDEFINO EL ARRAY DATOS QUE TENIA ANTES FILTRADO POR RANGO DE PRECIOS
-if (document.getElementById("InputOrdenarPor").value == "Relevancia"){
-    datos = datos.sort(function (a, b) {
-        if (a.soldCount < b.soldCount) {
-          return 1;
-        }
-        if (a.soldCount > b.soldCount) {
-          return -1;
-        }
-        
-        return 0;
-      });
-}
-
-
-//SI ELEGIMOS ORDENAR POR PRECIO, DE MENOR A MAYOR
-//YA ME REDEFINO EL ARRAY DATOS QUE TENIA ANTES FILTRADO POR RANGO DE PRECIOS
-if (document.getElementById("InputOrdenarPor").value == "MenorMayorPrecio"){
-    datos = datos.sort(function (a, b) {
-        if (a.cost > b.cost) {
-          return 1;
-        }
-        if (a.cost < b.cost) {
-          return -1;
-        }
-        
-        return 0;
-      });
-}
-
-
-
-//SI ELEGIMOS ORDENAR POR PRECIO, DE MAYOR A MENOR
-//YA ME REDEFINO EL ARRAY DATOS QUE TENIA ANTES FILTRADO POR RANGO DE PRECIOS
-if (document.getElementById("InputOrdenarPor").value == "MayorMenorPrecio"){
-    datos = datos.sort(function (a, b) {
-        if (a.cost < b.cost) {
-          return 1;
-        }
-        if (a.cost > b.cost) {
-          return -1;
-        }
-        
-        return 0;
-      });
-}
 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
@@ -130,6 +131,26 @@ datos.forEach(producto => {
 
         }
   
+
+
+// ACCIONO SEGUN EL USUARIO HAYA FILTRADO POR NOMBRE O DESCRIPCION
+
+document.getElementById("InputBuscador").addEventListener('input', function () {
+
+  
+  palabras = document.getElementById("InputBuscador").value.toLowerCase();
+  
+
+  MostrarListaProductos(datosUtiles); //TIENE QUE VOLVER A CORRER CON LOS VALORES DEL FILTRO
+
+  
+
+});
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+
 
 // ACCIONO SEGUN EL USUARIO HAYA SELECCIONADO O NO ALGO EN LOS FILTROS
 
@@ -179,9 +200,9 @@ if (((AuxMax === 1) && (AuxMin ===1)) && (PrecioMin >= PrecioMax)){
     document.getElementById("InputPrecioMax").value = PrecioMax;
 }
 
-MostrarListaProductos(datosUtiles); //TIENE QUE VOLVER A CORRER CON LOS VALORES DEL FILTRO
+MostrarListaProductos(datosUtiles); //TIENE QUE VOLVER A CORRER CON LOS VALORES DEL FILTRO, Y CON LOS NUEVOS PARAMETROS DE RANGO
 
-})
+});
 
 // LIMPIO LOS VALORES DEL FILTRO
 document.getElementById("InputResetBtn").addEventListener("click", function() {
@@ -189,15 +210,48 @@ document.getElementById("InputResetBtn").addEventListener("click", function() {
     PrecioMin = undefined;
     PrecioMax = undefined;
     Moneda = undefined;
+    palabras = undefined;
+    ordenarPor = "Relevancia";
 
     document.getElementById("InputPrecioMin").value = "";
     document.getElementById("InputPrecioMax").value = "";
     document.getElementById("InputMoneda").value = "ElijeMoneda";
+    document.getElementById("InputBuscador").value = "";
+    document.getElementById("InputOrdenarPor").value = "Relevancia";
 
     //alert("El reset anda");
     
-    MostrarListaProductos(datosUtiles); //TIENE QUE VOLVER A CORRER CON LOS VALORES DEL FILTRO
+    MostrarListaProductos(datosUtiles); //TIENE QUE VOLVER A CORRER CON LOS VALORES DEL FILTRO, Y CON LOS NUEVOS PARAMETROS DE RANGO
     
-    })
+    });
+
+
+
+// -------------------------------------- PARA ORDENAR ----------------------------------------------
+
+document.getElementById("InputOrdenarPor").addEventListener("change", function() {
+
+if (document.getElementById("InputOrdenarPor").value == "Relevancia"){
+  ordenarPor = "Relevancia";
+  MostrarListaProductos(datosUtiles);
+
+}
+
+
+if (document.getElementById("InputOrdenarPor").value == "MenorMayorPrecio"){
+  ordenarPor = "MenorMayorPrecio";
+  MostrarListaProductos(datosUtiles);
+}
+
+
+if (document.getElementById("InputOrdenarPor").value == "MayorMenorPrecio"){
+  ordenarPor = "MayorMenorPrecio";
+  MostrarListaProductos(datosUtiles);
+}
+
+});
+
+
+
 
 });
