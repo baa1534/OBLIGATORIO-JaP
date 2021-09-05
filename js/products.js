@@ -131,7 +131,7 @@ datos.forEach(producto => {
 
         }
   
-
+//-------------------------------------------------------------------------------------------------------------------------------------
 
 // ACCIONO SEGUN EL USUARIO HAYA FILTRADO POR NOMBRE O DESCRIPCION
 
