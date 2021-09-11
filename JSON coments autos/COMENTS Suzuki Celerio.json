@@ -2,17 +2,17 @@
     "score": 2,
     "description": "Tiene bajo puntaje de seguridad, me dijeron que son volcadores",
     "user": "Sandra_Alonso",
-    "dateTime": "2020-01-25 13:30:00"
+    "FechaYHora": "2020-01-25 13:30:00"
 },
 {
     "score": 4,
     "description": "Pequeno pero rendidor",
     "user": "Santiago_Duarte",
-    "dateTime": "2019-12-15 10:45:00"
+    "FechaYHora": "2019-12-15 10:45:00"
 },
 {
     "score": 4,
     "description": "Su tamano lo hace facil de estacionar en el centro",
     "user": "Franco_Berreta",
-    "dateTime": "2021-09-11 21:00:00"
+    "FechaYHora": "2021-09-11 21:00:00"
 }]

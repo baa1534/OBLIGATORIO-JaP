@@ -67,51 +67,39 @@ let ProdSeleccionado = JSON.parse(localStorage.getItem("ProdSeleccionado")).IDPr
 // ---------------------------------------------- TRAIGO LOS COMENTARIO Y LA PUNTUACION DEL PRODUCTO SELECCIONADO ----------------------------------------------------------------------------
 
 let URLProdSeleccionadoCOMENTS = "https://baa1534.github.io/OBLIGATORIO-JaP/JSON coments autos/COMENTS " +ProdSeleccionado+ ".json";   //ME CREE UNA CARPETA CON LOS JSON EN EL REPOSITORIO DEL OBLIGATORIO
-let ProductoCOMENTS = "";
+
 
    getJSONData (URLProdSeleccionadoCOMENTS).then(function(result){
        if(result.status === "ok") {
 
                
         
-        result.data.foreach(comentario => {
+        result.data.forEach(comentario => {
+
+            let ProductoCOMENTS = "";
+
             
+
             ProductoCOMENTS = `
-
+ 
+            <tr>
                    <tr> 
-                   <td> <img src=` + result.data.images[0] + ` width=200px height=140px style="text-align:center"> </td>
+                   <td style="text-align:left">` + comentario.user + `  </td>
+                   <td style="text-align:right"> Puntaje: ` + comentario.score + comentario.FechaYHora `  </td>
                    </tr>
 
                    
-
                    <tr> 
-                   <td colspan="2"> <img src=` + result.data.images[1] + ` width=200px height=140px style="text-align:center"> </td>
-                   <td colspan="2"> <img src=` + result.data.images[2] + ` width=200px height=140px style="text-align:center"> </td>
-                   <td colspan="2"> <img src=` + result.data.images[3] + ` width=200px height=140px style="text-align:center"> </td>
-                   <td colspan="2"> <img src=` + result.data.images[4] + ` width=200px height=140px style="text-align:center"> </td>
+                   <td colspan="2" style="text-align:left"> Comentario: </td>
                    </tr>
 
+                 
+                   <tr> 
+                   <td rowspan="2" colspan="2" style="text-align:left">` + comentario.description + `</td>
+                   </tr>
+                  
                    
-
-                   <tr> 
-                   <td colspan="8" style="text-align:center">` + result.data.description + `</td>
-                   </tr>
-
-                   <tr>
-                   <td colspan="2"> Categoria: ` + result.data.category + `</td>
-                   <td colspan="2">` + result.data.name + `</td>
-                   <td colspan="2">` + result.data.currency + result.data.cost + `</td>
-                   <td colspan="2"> Vendidos: ` + result.data.soldCount + `</td>
-                   </tr>
-       
-                   <tr> 
-                   <td colspan="8" style="text-align:right"> Productos relacionados:` + result.data.relatedProducts + `</td>
-                   </tr>
-
-                   <tr> 
-                   <td colspan="8" style="text-align:right"> <a href="products.html"> Volver a lista de `+ result.data.category +` </a> </td>
-                   </tr>
-       
+            </tr>
                 `
            
               
