@@ -84,8 +84,8 @@ let URLProdSeleccionadoCOMENTS = "https://baa1534.github.io/OBLIGATORIO-JaP/JSON
  
             <tr>
                    <tr> 
-                   <td style="text-align:left">` + comentario.user + `  </td>
-                   <td style="text-align:right"> Puntaje: ` + comentario.score + comentario.FechaYHora `  </td>
+                   <td style="text-align:left">` + comentario.user + "  -  " + comentario.FechaYHora + `  </td>
+                   <td style="text-align:right"> Puntaje: ` + comentario.score +  `  </td>
                    </tr>
 
                    
