@@ -4,7 +4,7 @@
 document.addEventListener("DOMContentLoaded", function(e){
 
  let ProdSeleccionado = JSON.parse(localStorage.getItem("ProdSeleccionado")).IDProdSeleccionado;
- let URLProdSeleccionado = "https://japdevdep.github.io/ecommerce-api/product/5678.json";   
+ let URLProdSeleccionado = "https://baa1534.github.io/OBLIGATORIO-JaP/JSON info autos/INFO " +ProdSeleccionado+ ".json";   
  let Producto = "";
 
     getJSONData (URLProdSeleccionado).then(function(result){
