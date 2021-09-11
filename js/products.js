@@ -1,7 +1,18 @@
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
+
+function InfoProducto(id){
+  //alert(id)  //QUERIA VER SI ANDABA
+  localStorage.setItem("ProdSeleccionado", JSON.stringify({IDProdSeleccionado: id}));
+  window.location = "product-info.html";
+};
+
+
 document.addEventListener("DOMContentLoaded", function (e) {
+
+  
+
 
 // LAS DEFINO AHORA, SIN CONTENIDO, PARA QUE NO ME DE ERROR SI EL USUARIO NO FILTRA NADA
 let PrecioMin = undefined;
@@ -9,6 +20,12 @@ let PrecioMax = undefined;
 let Moneda = undefined;
 let palabras = undefined;
 let ordenarPor = "Relevancia";
+
+
+// PARA MOSTRAR INFORMACION ESPECIFICA DE CADA PRODUCTO
+
+
+
 
 // VEAMOS SI TENEMOS ALGUN PROBLEMA CON EL JSON ANTES DE PONERNOS A HACER NADA CON LOS DATOS
 
@@ -24,21 +41,18 @@ let ordenarPor = "Relevancia";
 
 
 
+
+
+
 // SI getJSONData FUNCIONA, TRABAJO CON LOS DATOS LEVANTADOS
 
 function MostrarListaProductos(DatosOrig) {
 
-let divinteres = document.getElementById("ContenedorLista");
-divinteres.innerHTML = "";
+//let divinteres = document.getElementById("ContenedorLista");
+//divinteres.innerHTML = "";
 
+document.getElementById("cuerpotabla").innerHTML = "";
 
-let tabla = document.createElement("table");
-let cuerpotabla = document.createElement("tbody");
-cuerpotabla.id = "cuerpotabla";
-cuerpotabla.style.textAlign = "center"
-
-tabla.appendChild(cuerpotabla);
-divinteres.appendChild(tabla);
 
 
 // --------------------------------------FILTRAR YA SEGUN RANGO DE PRECIOS, SE EJECUTA APRETANDO EL BOTON DE FILTRO ----------------------------------------------------
@@ -105,7 +119,8 @@ if (ordenarPor == "MayorMenorPrecio"){
 datos.forEach(producto => {
     
         let prodrow = "";
-
+        
+        
     prodrow = `
             <tr> 
 
@@ -113,6 +128,7 @@ datos.forEach(producto => {
             <td>` + producto.name + `</td>
             <td>` + producto.currency + producto.cost + `</td>
             <td> Vendidos:` + producto.soldCount + `</td>
+            <td rowspan="2"> <input type="button"; style="float: right"; value=" + info "; id="`+ producto.name +`"; onclick="InfoProducto('` + producto.name + `' )"</td>
 
             </tr>
 
@@ -121,16 +137,27 @@ datos.forEach(producto => {
             <td colspan="3">` + producto.description + `</td>
             
             </tr>
+
          `
-        document.getElementById("cuerpotabla").innerHTML += prodrow;
-         
+    
+       
+    document.getElementById("cuerpotabla").innerHTML += prodrow;
+     
     
             });
 
 
 
+
+
+
         }
+
+        
+
   
+//document.getElementById(IDbtn).addEventListener("click", function(){alert("anda")});
+
 //-------------------------------------------------------------------------------------------------------------------------------------
 
 // ACCIONO SEGUN EL USUARIO HAYA FILTRADO POR NOMBRE O DESCRIPCION
