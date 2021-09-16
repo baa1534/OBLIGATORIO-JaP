@@ -2,6 +2,8 @@
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 
+
+
 function InfoProducto(id){
   //alert(id)  //QUERIA VER SI ANDABA
   localStorage.setItem("ProdSeleccionado", JSON.stringify({IDProdSeleccionado: id}));
