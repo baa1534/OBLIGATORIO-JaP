@@ -11,6 +11,12 @@ function VueltaAtras() {
 
 }
 
+function InfoProducto(id){
+  //alert(id)  //QUERIA VER SI ANDABA
+  localStorage.setItem("ProdSeleccionado", JSON.stringify({IDProdSeleccionado: id}));
+  window.location = "product-info.html";
+};
+
 
 // ------------------------------------------- TRAIGO DATOS DE FECHA QUE VOY A USAR-----------------------------------------
 let FechaHoy = new Date();
@@ -89,19 +95,38 @@ document.addEventListener("DOMContentLoaded", function(e){
 let ProdSeleccionado = JSON.parse(localStorage.getItem("ProdSeleccionado")).IDProdSeleccionado; // TRAIGO AL PRODUCTO SELECCIONADO
 
 
-
 // ---------------------------------------------- TRAIGO LA INFO EXTRA DEL PRODUCTO SELECCIONADO ----------------------------------------------------------------------------
 
+let ListaDeProductos = "";
+
+getJSONData(PRODUCTS_URL).then(function(datosTraidos){
+  if (datosTraidos.status === "ok")
+  {
+     ListaDeProductos = datosTraidos.data;
+     
+  } else {
+    alert (datosTraidos.data) ;
+  }
+});
 
 
 
  let URLProdSeleccionadoINFO = "https://baa1534.github.io/OBLIGATORIO-JaP/JSON info autos/INFO " +ProdSeleccionado+ ".json";   //ME CREE UNA CARPETA CON LOS JSON EN EL REPOSITORIO DEL OBLIGATORIO
  let ProductoINFO = "";
 
+
     getJSONData (URLProdSeleccionadoINFO).then(function(result){
         if(result.status === "ok") {
 
+
+
+
+
                 ProductoINFO = `
+
+                    <tr> 
+                    <td colspan="8"> <strong>` + result.data.name + `</strong> </td>
+                    </tr>
 
                     <tr> 
                     <td colspan="8"> <img src=` + result.data.images[0] + ` width=200px height=140px style="text-align:center"> </td>
@@ -129,15 +154,28 @@ let ProdSeleccionado = JSON.parse(localStorage.getItem("ProdSeleccionado")).IDPr
                     <td colspan="2"> Vendidos: ` + result.data.soldCount + `</td>
                     </tr>
         
-                    <tr> 
-                    <td colspan="8" style="text-align:right"> Productos relacionados:` + result.data.relatedProducts + `</td>
+                    <tr style="border-top-style: solid"> 
+                    <td colspan="8" style="text-align:left"> Productos relacionados:</td>
+                    </tr>
+
+                    <tr>
+                    <td colspan="4"> ` + ListaDeProductos[result.data.relatedProducts[0]-1].name + `</td>
+                    <td colspan="4"> ` + ListaDeProductos[result.data.relatedProducts[1]-1].name + `</td>
+                    </tr>
+                    <tr>
+                    <td colspan="4"> <img src=` + ListaDeProductos[result.data.relatedProducts[0]-1].imgSrc + ` width=200px height=140px style="text-align:center"></td>
+                    <td colspan="4"> <img src=` + ListaDeProductos[result.data.relatedProducts[1]-1].imgSrc + ` width=200px height=140px style="text-align:center"></td>
+                    </tr>
+                    <tr>
+                    <td colspan="4"> <input type="button"; style="float: center"; value=" + info "; id="`+ ListaDeProductos[result.data.relatedProducts[0]-1].name +`"; onclick="InfoProducto('` + ListaDeProductos[result.data.relatedProducts[0]-1].name + `' )"</td>
+                    <td colspan="4"> <input type="button"; style="float: center"; value=" + info "; id="`+ ListaDeProductos[result.data.relatedProducts[1]-1].name +`"; onclick="InfoProducto('` + ListaDeProductos[result.data.relatedProducts[1]-1].name + `' )"</td>
                     </tr>
 
                     <tr> 
                     <td colspan="8" style="text-align:right"> <input type="button" onclick="VueltaAtras()" value="Volver a lista de `+ result.data.category +`"> </td>
-                    </tr>
-        
-                 `
+                    </tr>`
+                    
+                 
             
                
             document.getElementById("cuerpotablaINFO").innerHTML += ProductoINFO;
@@ -148,6 +186,13 @@ let ProdSeleccionado = JSON.parse(localStorage.getItem("ProdSeleccionado")).IDPr
 
         } else { alert("problemas al cargar JSON INFO")};
     })
+
+                 
+        
+
+
+
+
 //--------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -260,7 +305,7 @@ document.getElementById("InputFecha").innerHTML = ANIO + "-" + MES + "-" + DIA;
 // -------------------------------------------- VEO DE AUTORRELLENAR EL NOMBBRE DE USUARIO ---------------------------------------------
 
 
-document.getElementById("InputUsuario").innerHTML = `<strong>` + Usuario + `</strong> dice:` ;
+document.getElementById("InputUsuario").innerHTML = `<strong>` + Usuario + `</strong> dice:` ; // Si el usuario inicio sesion dira el nombre de usuario, sino dira anonimo
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 
