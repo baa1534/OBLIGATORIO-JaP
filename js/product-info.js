@@ -125,26 +125,59 @@ getJSONData(PRODUCTS_URL).then(function(datosTraidos){
                 ProductoINFO = `
 
                     <tr> 
-                    <td colspan="8"> <strong>` + result.data.name + `</strong> </td>
-                    </tr>
-
-                    <tr> 
-                    <td colspan="8"> <img src=` + result.data.images[0] + ` width=200px height=140px style="text-align:center"> </td>
+                    <td colspan="8" style="font-size:50px"> <strong>` + result.data.name + `</strong> </td>
                     </tr>
 
                     
-
                     <tr> 
-                    <td colspan="2"> <img src=` + result.data.images[1] + ` width=200px height=140px style="text-align:center"> </td>
-                    <td colspan="2"> <img src=` + result.data.images[2] + ` width=200px height=140px style="text-align:center"> </td>
-                    <td colspan="2"> <img src=` + result.data.images[3] + ` width=200px height=140px style="text-align:center"> </td>
-                    <td colspan="2"> <img src=` + result.data.images[4] + ` width=200px height=140px style="text-align:center"> </td>
+                    <td colspan="2" style="text-align:center"> </td>
+                    <td colspan="4" style="text-align:center"> 
+
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <img src=` + result.data.images[0] + ` height=400px  style="text-align:center" class="d-block w-100" alt="` + result.data.name + ` img 1" >
+                          </div>
+                        <div class="carousel-item">
+                          <img src=` + result.data.images[1] + ` height=400px  style="text-align:center" class="d-block w-100" alt="` + result.data.name + ` img 2" >
+                        </div>
+                        <div class="carousel-item">
+                          <img src=` + result.data.images[2] + ` height=400px  style="text-align:center" class="d-block w-100" alt="` + result.data.name + ` img 3" >
+                        </div>
+                        <div class="carousel-item">
+                          <img src=` + result.data.images[3] + ` height=400px  style="text-align:center" class="d-block w-100" alt="` + result.data.name + ` img 4" >
+                        </div>
+                        <div class="carousel-item">
+                          <img src=` + result.data.images[4] + ` height=400px  style="text-align:center" class="d-block w-100" alt="` + result.data.name + ` img 5" >
+                        </div>
+                      </div>
+                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+
+                    </td>
+                    <td colspan="2" style="text-align:center"> </td>
                     </tr>
-
-                    
-
+                 
                     <tr> 
                     <td colspan="8" style="text-align:center">` + result.data.description + `</td>
+                    </tr>
+
+                    <tr> 
+                    <td colspan="8" height = 50px>  </td>
                     </tr>
 
                     <tr>
@@ -154,21 +187,29 @@ getJSONData(PRODUCTS_URL).then(function(datosTraidos){
                     <td colspan="2"> Vendidos: ` + result.data.soldCount + `</td>
                     </tr>
         
-                    <tr style="border-top-style: solid"> 
+                    <tr style="border-top-style: solid" height = 80px style="vertical-align: bottom"> 
                     <td colspan="8" style="text-align:left"> Productos relacionados:</td>
+                    </tr>
+                  
+                    <tr> 
+                    <td colspan="8" height = 20px>  </td>
                     </tr>
 
                     <tr>
-                    <td colspan="4"> ` + ListaDeProductos[result.data.relatedProducts[0]-1].name + `</td>
-                    <td colspan="4"> ` + ListaDeProductos[result.data.relatedProducts[1]-1].name + `</td>
+                    <td colspan="4" style="font-size:20px"> <strong>` + ListaDeProductos[result.data.relatedProducts[0]-1].name + `</strong></td>
+                    <td colspan="4" style="font-size:20px"> <strong>` + ListaDeProductos[result.data.relatedProducts[1]-1].name + `</strong></td>
                     </tr>
                     <tr>
-                    <td colspan="4"> <img src=` + ListaDeProductos[result.data.relatedProducts[0]-1].imgSrc + ` width=200px height=140px style="text-align:center"></td>
-                    <td colspan="4"> <img src=` + ListaDeProductos[result.data.relatedProducts[1]-1].imgSrc + ` width=200px height=140px style="text-align:center"></td>
+                    <td colspan="4"> <img src=` + ListaDeProductos[result.data.relatedProducts[0]-1].imgSrc + ` width=280px height=196px style="text-align:center"></td>
+                    <td colspan="4"> <img src=` + ListaDeProductos[result.data.relatedProducts[1]-1].imgSrc + ` width=280px height=196px style="text-align:center"></td>
                     </tr>
                     <tr>
                     <td colspan="4"> <input type="button"; style="float: center"; value=" + info "; id="`+ ListaDeProductos[result.data.relatedProducts[0]-1].name +`"; onclick="InfoProducto('` + ListaDeProductos[result.data.relatedProducts[0]-1].name + `' )"</td>
                     <td colspan="4"> <input type="button"; style="float: center"; value=" + info "; id="`+ ListaDeProductos[result.data.relatedProducts[1]-1].name +`"; onclick="InfoProducto('` + ListaDeProductos[result.data.relatedProducts[1]-1].name + `' )"</td>
+                    </tr>
+
+                    <tr> 
+                    <td colspan="8" height = 50px>  </td>
                     </tr>
 
                     <tr> 
