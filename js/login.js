@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 alert("Autenticacion exitosa!");
 
                 localStorage.setItem("NombreUsuario", JSON.stringify(UserName.value));
+                localStorage.setItem("DireccionesUsuario", JSON.stringify(["Guardada 1","Guardada 2"])); //PRUEBA PARA CARRITO
 
                 if (localStorage.getItem("VengoDelCart")) {
                     window.location = "cart.html";

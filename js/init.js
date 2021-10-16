@@ -145,6 +145,7 @@ if (document.getElementById("InputSalida")){
   document.getElementById("InputSalida").addEventListener("click", function(){
 
     localStorage.removeItem("NombreUsuario");
+    localStorage.removeItem("DireccionesUsuario"); //PRUEBA PARA CARRITO
     window.location = "index.html";
 
   })
