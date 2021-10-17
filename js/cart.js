@@ -22,7 +22,7 @@ function PrecioTotal() {
     ParaFinal[0] = Total;
 
     console.log(ParaFinal[0] + 40*ParaFinal[1]);
-    document.getElementById("FinalFinal").innerHTML = ParaFinal[0] + 40*ParaFinal[1];
+    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + 40*ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40*ParaFinal[1]);
 
 };
 
@@ -43,13 +43,13 @@ function CantProd(producto, moneda, PU, cant, indice) { // QUIERO QUE ME VAYA CA
     PrecioTotal();
 
     if (PyC.moneda.indexOf("USD") != -1) {
-        document.getElementById("TotalFinal").innerHTML = `<strong> Subtotal: USD ` + Total / 40 + `</strong>`;
-        document.getElementById("TotalFinal").innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: UYU ` + Total;
+        document.getElementById("TotalFinal").innerHTML = `<strong> Subtotal productos: USD ` + Total / 40 + `</strong>`;
+        document.getElementById("TotalFinal").innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: UYU ` + Total;
         //let aux = Total / 40 + ParaFinal[1];
         //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: USD ` + aux + `</strong>`;
     } else {
-        document.getElementById("TotalFinal").innerHTML = `<strong> Subtotal: UYU ` + Total + `</strong>`;
-        document.getElementById("TotalFinal").innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: USD ` + Total / 40;
+        document.getElementById("TotalFinal").innerHTML = `<strong> Subtotal productos: UYU ` + Total + `</strong>`;
+        document.getElementById("TotalFinal").innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: USD ` + Total / 40;
         //let aux = Total + 40 * ParaFinal[1];
        // document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
     }
@@ -78,7 +78,7 @@ function MostrarDireccion(direccion) {
     ParaFinal[1] = CostoEnvio;
 
     console.log(ParaFinal[0] + 40*ParaFinal[1]);
-    document.getElementById("FinalFinal").innerHTML = ParaFinal[0] + 40*ParaFinal[1];
+    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + 40*ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40*ParaFinal[1]);
 
     DirContent =
 
@@ -97,7 +97,7 @@ function MostrarDireccion(direccion) {
     <p style="text-align:right">
     <strong> Subtotal envío: USD `+ CostoEnvio + `</strong>
     <br>
-    <br> Tipo de cambio a $UY 40 <br> Subtotal: UYU `+ CostoEnvio / 40 +
+    <br> Tipo de cambio a $UY 40 <br> Subtotal envío: UYU `+ CostoEnvio / 40 +
 
         `</p>
     `
@@ -371,13 +371,13 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 //QUERIA QUE PASARA EL TOTAL EN LA MONEDA DE RELEVANCIA, QUE DECIDI QUE FUESE DOLARES EN CASO DE QUE AL MENOS ALGUNO DE LOS PRODUCTOS DEL CARRO ESTUVIESEN EN ESA MONEDA
                 //OTRA OPCION PODRIA HABER SIDO TENER DOS SUB TOTALES GENERALES EN LOS QUE  SE AGRUPARAN LOS MONTOS POR MONEDA, PERO ME PARECIO QUE NO ERA LO QUE SE PEDIA
                 if (PyC.moneda.indexOf("USD") != -1) {
-                    TotalFinal.innerHTML += `<strong> Subtotal: USD ` + Total / 40 + `</strong>`;
-                    TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: UYU ` + Total;
+                    TotalFinal.innerHTML += `<strong> Subtotal productos: USD ` + Total / 40 + `</strong>`;
+                    TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: UYU ` + Total;
                     //let aux = Total / 40 + ParaFinal[1];
                     //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: USD ` + aux + `</strong>`;
                 } else {
-                    TotalFinal.innerHTML += `<strong> Subtotal: UYU ` + Total + `</strong>`;
-                    TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: USD ` + Total / 40;
+                    TotalFinal.innerHTML += `<strong> Subtotal productos: UYU ` + Total + `</strong>`;
+                    TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: USD ` + Total / 40;
                     //let aux = Total + 40 * ParaFinal[1];
                     //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
                 }
