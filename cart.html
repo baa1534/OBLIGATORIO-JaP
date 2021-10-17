@@ -62,25 +62,50 @@
       <div class="card">
         <!-- SECTOR ENVIO -->
         <div class="card-header">
-          Dirección de envío <a href="#" class="btn btn-link" onclick="CambiarDIR()">Change</a>
+          Dirección de envío 
+          <div id="CambiarDIRbtn"></div>
         </div>
         <div class="card-body">
-          <h5 class="card-title" id="NombreDireccion"> </h5>
-          <p class="card-text" id="Direccion"> </p>
+          <p class="card-text" id="NombreDireccion"> </p>
+          
         </div>
       </div>
 
       <div class="card">
         <!-- SECTOR PAGO -->
         <div class="card-header">
-          Método de pago <a href="#" class="btn btn-link">Change</a>
+          Método de pago 
         </div>
+
         <div class="card-body">
-          <p class="card-text" id="MetodoPago"> </p>
+          <p class="card-text" > 
+            <select name="transporte" id="MetodoPago">
+
+              <option value="CE">Pago contra entrega</option>
+              <option value="TC">Tarjeta de credito</option>
+                                  
+            </select>
+          </p>
+        
+          <div id="opcionesMp">
+          </div>
+        
         </div>
       </div>
 
     </div>
+
+    <div class="container p-5" id="FinalFinal">
+    
+
+    </div>
+
+
+  </div>
+
+  <div class="card" id="FinalFinal">
+    
+
   </div>
 
 

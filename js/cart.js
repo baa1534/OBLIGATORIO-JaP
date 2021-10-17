@@ -3,6 +3,11 @@
 //elementos HTML presentes.
 
 let Total = 0;
+
+let TotalCE = 0;
+
+let ParaFinal = ["", ""];
+
 let PyC = { precios: [], cantidades: [], moneda: [] };
 
 function PrecioTotal() {
@@ -14,7 +19,14 @@ function PrecioTotal() {
         Total += PyC.precios[i] * PyC.cantidades[i];
     }
 
-}
+    ParaFinal[0] = Total;
+
+    console.log(ParaFinal[0] + 40*ParaFinal[1]);
+    document.getElementById("FinalFinal").innerHTML = ParaFinal[0] + 40*ParaFinal[1];
+
+};
+
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -33,13 +45,19 @@ function CantProd(producto, moneda, PU, cant, indice) { // QUIERO QUE ME VAYA CA
     if (PyC.moneda.indexOf("USD") != -1) {
         document.getElementById("TotalFinal").innerHTML = `<strong> Subtotal: USD ` + Total / 40 + `</strong>`;
         document.getElementById("TotalFinal").innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: UYU ` + Total;
+        //let aux = Total / 40 + ParaFinal[1];
+        //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: USD ` + aux + `</strong>`;
     } else {
         document.getElementById("TotalFinal").innerHTML = `<strong> Subtotal: UYU ` + Total + `</strong>`;
         document.getElementById("TotalFinal").innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: USD ` + Total / 40;
+        //let aux = Total + 40 * ParaFinal[1];
+       // document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
     }
 
 
 }
+
+
 
 
 // --------------------------------- MOSTRAR DIRECCION DE ENVIO ---------------------------------------
@@ -57,6 +75,10 @@ function MostrarDireccion(direccion) {
         CostoEnvio = 100; // COSTO GENERICO EN DOLARES
     };
 
+    ParaFinal[1] = CostoEnvio;
+
+    console.log(ParaFinal[0] + 40*ParaFinal[1]);
+    document.getElementById("FinalFinal").innerHTML = ParaFinal[0] + 40*ParaFinal[1];
 
     DirContent =
 
@@ -85,6 +107,8 @@ function MostrarDireccion(direccion) {
 
 
 }
+
+
 
 
 // ------------------------------------ CARGAR DIRECCION DE ENVIO DESDE FORMULARIO --------------------------
@@ -156,47 +180,94 @@ function MostrarFormularioDIR() {
 
 };
 
-// --------------------------------- CAMBIAR DIRECCION --------------------------------------------------------
+// --------------------------------- CAMBIAR DIRECCION BTN--------------------------------------------------------
 
-function CambiarDIR() {
+function TraerArray(opcion) {
 
-    if (DirsUsuario) {
+    getJSONData("https://baa1534.github.io/OBLIGATORIO-JaP/JSON direcciones/DIR " + opcion + ".json").then(function (result) {
+        if (result.status === "ok") {
 
-        let OpcionesDir = "";
-        
-        DirsUsuario.forEach(direcciones => {
+            let arraydireccion = [result.data.nombre, result.data.observaciones, result.data.numpuerta, result.data.calle, result.data.ciudad, result.data.codigopostal, result.data.pais, result.data.tel];
 
-            OpcionesDir += `
+            MostrarDireccion(arraydireccion);
 
-            <a class="dropdown-item" href="#">`+ direcciones + `</a>
+
+        } else {
+            alert("problemas al cargar direcciones de usuario")
+
+            MostrarFormularioDIR();
+
+        };
+    });
+
+};
+
+
+let OpcionesDir = "";
+let Btn = "";
+
+if (DirsUsuario) {
+
+    DirsUsuario.forEach(direcciones => {
+
+        OpcionesDir += `
+
+            <a class="dropdown-item" onclick="TraerArray('`+ direcciones + `')">` + direcciones + `</a>
                         
             `
-        });
+    });
 
-        DirContent = `
+};
 
-        <div class="btn-group" role="group">
-            <button id="CambioDir" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Elije una opción...
+Btn = `
+
+            <button id="CambioDir" type="button" class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Change
             </button>
             <div class="dropdown-menu" aria-labelledby="CambioDir">`
 
-            +OpcionesDir+
+    + OpcionesDir +
 
-            `<div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" onclick="MostrarFormularioDIR()">Ingresar nueva dirección</a>
-            </div>
+    `<div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" onclick="MostrarFormularioDIR()">Ingresar nueva dirección</a>
+                    </div>
 
             </div>
-        </div>
+        
 
     `
-        document.getElementById("NombreDireccion").innerHTML = DirContent;
 
-    }else{
-        MostrarFormularioDIR();
-    };
+document.getElementById("CambiarDIRbtn").innerHTML = Btn;
 
+
+
+//--------------------------------------- MOSTRAR DATOS DE TARJETA ---------------------------------
+
+
+function ShowCard() {
+
+    let Titular = document.getElementById("titularTC");
+    let Numero = document.getElementById("numeroTC");
+    let Vencimiento = document.getElementById("vencimientoTC");
+    let CCV = document.getElementById("CCVTC");
+
+
+    if (Titular.value === "" || Numero.value === "" || Vencimiento.value === "" || CCV.value === "") {
+        alert("Se deben completar todos los campos para ingreso de la tarjeta de crédito!");
+
+    } else {
+
+        document.getElementById("MetodoPago").value = "TC";
+        document.getElementById("opcionesMp").innerHTML = `
+
+        <strong> Titular </strong> <br>`
+            + Titular.value + `<br>
+        <strong> Número de tarjeta </strong> <br>`
+            + Numero.value + `<br>
+        <strong> Vencimiento </strong> <br>`
+            + Vencimiento.value
+
+
+    }
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -290,6 +361,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 PrecioTotal();
 
 
+
                 let TotalFinal = document.createElement("p");
                 document.getElementById("ListaProductosCarrito").appendChild(TotalFinal);
                 TotalFinal.style.textAlign = "right";
@@ -301,9 +373,13 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 if (PyC.moneda.indexOf("USD") != -1) {
                     TotalFinal.innerHTML += `<strong> Subtotal: USD ` + Total / 40 + `</strong>`;
                     TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: UYU ` + Total;
+                    //let aux = Total / 40 + ParaFinal[1];
+                    //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: USD ` + aux + `</strong>`;
                 } else {
                     TotalFinal.innerHTML += `<strong> Subtotal: UYU ` + Total + `</strong>`;
                     TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal: USD ` + Total / 40;
+                    //let aux = Total + 40 * ParaFinal[1];
+                    //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
                 }
 
             } else { alert("problemas al cargar JSON INFO") };
@@ -313,7 +389,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
         });
 
 
-        // RELLENAMOS DIRECCIONES Y METODOS DE PAGO
+
+        // -----------------------------------------------------------------     RELLENAMOS DIRECCIONES  ----------------------------------------------------------------
 
         document.getElementById("NombreDireccion").innerHTML = "";
 
@@ -329,11 +406,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
                     MostrarDireccion(arraydireccion);
 
 
-                } else { alert("problemas al cargar direcciones de usuario") 
-            
-                MostrarFormularioDIR();
+                } else {
+                    alert("problemas al cargar direcciones de usuario")
 
-            };
+                    MostrarFormularioDIR();
+
+                };
             });
 
 
@@ -347,9 +425,99 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         document.getElementById("NombreDireccion");
 
+        // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        // -----------------------------------------------------------------------------------  METODOS DE PAGO --------------------------------------------------------------------------
+
+
+        // SE PODRIA HACER LO MISMO QUE CON LA DIRECCION Y CHEQUEAR SI TIENE METODOS DE PAGO CARGADOS
+        // SITUACION POR DEFAULT
+
+
+        document.getElementById("opcionesMp").innerHTML = `
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="opcionesCE" id="efectivo" value="efectivo">
+            <label class="form-check-label" for="efectivo">
+            Efectivo
+            </label>
+        </div>
+
+        <br>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="opcionesCE" id="debito" value="debito" checked>
+            <label class="form-check-label" for="debito">
+            Débito
+            </label>
+        </div>        
+                       
+
+                    `;
+
+
+        //EVENTO SI CAMBIO EL METODO DE PAGO
+
+        document.getElementById("MetodoPago").addEventListener("change", function () {
+
+            if (document.getElementById("MetodoPago").value == "CE") {
+
+                document.getElementById("opcionesMp").innerHTML = `
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="opcionesCE" id="efectivo" value="efectivo">
+            <label class="form-check-label" for="efectivo">
+            Efectivo
+            </label>
+        </div>
+
+        <br>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="opcionesCE" id="debito" value="debito" checked>
+            <label class="form-check-label" for="debito">
+            Débito
+            </label>
+        </div>        
+
+                    `;
+
+            }
+
+            if (document.getElementById("MetodoPago").value == "TC") {
+
+                document.getElementById("opcionesMp").innerHTML = `
+
+        <form>
+        <div class="form-group">
+            <label for="titularTC">Titular</label>
+            <input type="text" class="form-control" id="titularTC" aria-describedby="titular" placeholder="Tal cual aparece en el plástico">
+        </div>
+        <div class="form-group">
+            <label for="numeroTC">Número</label>
+            <input type="text" class="form-control" id="numeroTC" aria-describedby="número" placeholder="Sin espacios">
+        </div>
+        <div class="form-group">
+            <label for="vencimientoTC">Fecha de vencimiento</label>
+            <input type="text" class="form-control" id="vencimientoTC" aria-describedby="vencimiento" placeholder="mm/aa">
+        </div>
+        <div class="form-group">
+            <label for="CCVTC">CCV</label>
+            <input type="text" class="form-control" id="CCVTC" aria-describedby="CCV">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="ShowCard()">Listo!</button>
+    </form>        
+
+                    `;
+
+            }
 
 
 
+        });
+
+        
 
     } else {
 
