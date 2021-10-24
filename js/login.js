@@ -26,8 +26,13 @@ document.addEventListener("DOMContentLoaded", function (e) {
                     window.location = "cart.html";
                     localStorage.removeItem("VengoDelCart");
                 } else {
+                    
+                    if (localStorage.getItem("VengoDelProfile")) {
+                    window.location = "my-profile.html";
+                    localStorage.removeItem("VengoDelProfile");
+                } else {
                     window.location = "inicio.html";
-                };
+                }};
 
             } else {
                 alert("Login de prueba! Ingresar con Usuario: usuario y Contraseña: usuario");
