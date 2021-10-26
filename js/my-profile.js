@@ -4,6 +4,7 @@
 
 let UsuarioLoggeado = localStorage.getItem("NombreUsuario");
 let DatosProfile = JSON.parse(localStorage.getItem("UserProfile"));
+let UserPic = localStorage.getItem("UserPic");
 
 function LlenarDatos(Datos){ // Me modifica los value de los input segun datos que haya guardados o no
 
@@ -75,6 +76,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
         if (DatosProfile) { //En caso de que hubiese algo cargado
 
             LlenarDatos(DatosProfile);
+
+            if(UserPic){
+                document.getElementById("UserPic").src = UserPic;
+            } else {
+                document.getElementById("UserPic").src = "img/UserPicsPredet/GenericPic.png";
+            }
         };
 
 

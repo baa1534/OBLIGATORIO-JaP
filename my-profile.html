@@ -61,84 +61,95 @@
       </div>
     </div>
 
-    <form>
+    <div class="row">
+      <div class="container col-8">
+        <form>
 
-      <div class="row">
-        <div class="col-8">
-          <div class="form-group" style="padding-top: 2%;">
-            <label for="Correo">Email</label>
-            <input type="email" class="form-control" id="Correo" aria-describedby="emailHelp"
-              placeholder="Ingrese su dirección de correo electrónico">
+          <div class="row">
+            <div class="col">
+              <div class="form-group" style="padding-top: 2%;">
+                <label for="Correo">Email</label>
+                <input type="email" class="form-control" id="Correo" aria-describedby="emailHelp"
+                  placeholder="Ingrese su dirección de correo electrónico">
+              </div>
+            </div>
           </div>
-        </div>
+
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <label for="1 Nombre">1° Nombre</label>
+                <input class="form-control" type="text" id="1 Nombre">
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label for="2 Nombre">2° Nombre</label>
+                <input class="form-control" type="text" id="2 Nombre">
+                <small id="2NombreHelp" class="form-text text-muted">Opcional</small>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <label for="1 Apellido">1° Apellido</label>
+                <input class="form-control" type="text" id="1 Apellido">
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label for="2 Apellido">2° Apellido</label>
+                <input class="form-control" type="text" id="2 Apellido">
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <label for="Edad">Edad</label>
+                <input class="form-control" type="text" id="Edad">
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <label for="TelContact">Teléfono de contacto</label>
+                <input class="form-control" type="number" id="TelContact" placeholder="Ej: +59899123123">
+              </div>
+            </div>
+          </div>
+
+
+
+        </form>
       </div>
 
-      <div class="row">
-
-        <div class="col-4">
-          <div class="form-group">
-            <label for="1 Nombre">1° Nombre</label>
-            <input class="form-control" type="text" id="1 Nombre">
-          </div>
-        </div>
-
-        <div class="col-4">
-          <div class="form-group">
-            <label for="2 Nombre">2° Nombre</label>
-            <input class="form-control" type="text" id="2 Nombre">
-            <small id="2NombreHelp" class="form-text text-muted">Opcional</small>
-          </div>
-        </div>
+      <div class="container col-4" style="border: solid;">
+        <img id="UserPic" src="" alt="">
 
       </div>
 
 
-      <div class="row">
-
-        <div class="col-4">
-          <div class="form-group">
-            <label for="1 Apellido">1° Apellido</label>
-            <input class="form-control" type="text" id="1 Apellido">
-          </div>
-        </div>
-
-        <div class="col-4">
-          <div class="form-group">
-            <label for="2 Apellido">2° Apellido</label>
-            <input class="form-control" type="text" id="2 Apellido">
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row">
-
-        <div class="col-4">
-          <div class="form-group">
-            <label for="Edad">Edad</label>
-            <input class="form-control" type="text" id="Edad">
-          </div>
-        </div>
-
-      </div>
-
-
-      <div class="row">
-
-        <div class="col-4">
-          <div class="form-group">
-            <label for="TelContact">Teléfono de contacto</label>
-            <input class="form-control" type="number" id="TelContact" placeholder="Ej: +59899123123">
-          </div>
-        </div>
-      </div>
-
-
-
-    </form>
+    </div>
 
     <div id="GCPerfil" class="d-none">
-      <button type="button" class="btn btn-primary"  onclick="GuardarCambios()" >
+      <button type="button" class="btn btn-primary" onclick="GuardarCambios()">
         Guardar Cambios </button>
     </div>
 
