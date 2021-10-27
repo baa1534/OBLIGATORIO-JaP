@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row align-items-center">
       <div class="container col-8">
         <form>
 
@@ -75,7 +75,7 @@
             </div>
           </div>
 
-          <div class="row">
+          <div class="row ">
 
             <div class="col">
               <div class="form-group">
@@ -140,11 +140,20 @@
         </form>
       </div>
 
-      <div class="container col-4" style="border: solid;">
-        <img id="UserPic" src="" alt="">
+      <div class="container col-4 ">
+        <div style="border: solid; ">
+          <img id="UserPic" src="" alt="" style="width: 100%; ">
 
+        </div>
+        <button id="CambioUserPic" type="button" class="btn btn-link" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false"> Change
+        </button>
+        <div class="dropdown-menu" aria-labelledby="CambioUserPic">
+          <a class="dropdown-item" onclick="CambiarUserPic('img/UserPicsPredet/GenericPic.png')"> Generic avatar </a>
+          <a class="dropdown-item" onclick="CambiarUserPic('img/UserPicsPredet/FPic.png')"> Female avatar </a>
+          <a class="dropdown-item" onclick="CambiarUserPic('img/UserPicsPredet/MPic.png')"> Male avatar </a>
+        </div>
       </div>
-
 
     </div>
 

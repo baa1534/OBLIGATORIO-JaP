@@ -62,6 +62,15 @@ function GuardarCambios(){
 }
 
 
+function CambiarUserPic(foto){
+
+    localStorage.removeItem("UserPic");
+    document.getElementById("UserPic").src = foto;
+    localStorage.setItem("UserPic", JSON.stringify(foto));
+
+}
+
+
 
 document.addEventListener("DOMContentLoaded", function (e) {
 
@@ -78,11 +87,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
             LlenarDatos(DatosProfile);
 
             if(UserPic){
-                document.getElementById("UserPic").src = UserPic;
+                document.getElementById("UserPic").src = JSON.parse(UserPic) ;
+                
             } else {
                 document.getElementById("UserPic").src = "img/UserPicsPredet/GenericPic.png";
+                localStorage.setItem("UserPic", JSON.stringify("img/UserPicsPredet/GenericPic.png"));
             }
         };
+      
+
+
 
 
     } else {
