@@ -64,11 +64,17 @@ function GuardarCambios() {
 
 function CambiarUserPic(foto) {
 
+    
+
     localStorage.removeItem("UserPic");
-    document.getElementById("UserPic").src = foto;
+
     localStorage.setItem("UserPic", JSON.stringify(foto));
 
-}
+    document.getElementById("UserPic").src = foto;
+
+    
+
+};
 
 function CargarImagen() {
 
@@ -105,14 +111,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
         //ACA CAMBIO LA FOTO DE PERFIL
         document.getElementById("UploadPic").addEventListener('change', function () {
 
-                var fr = new FileReader();
-                fr.onload = function () {
-                    //document.getElementById("UserPic").src = fr.result;
-                    CambiarUserPic(fr.result);
-                }
+            var fr = new FileReader();
+            fr.onload = function () {
+                //document.getElementById("UserPic").src = fr.result;
+                CambiarUserPic(fr.result);
+            }
 
-                fr.readAsDataURL(this.files[0]);
-            })
+            fr.readAsDataURL(this.files[0]);
+        })
 
 
     } else {

@@ -145,7 +145,7 @@ if (document.getElementById("InputSalida")){
   document.getElementById("InputSalida").addEventListener("click", function(){
 
     localStorage.removeItem("NombreUsuario");
-    localStorage.removeItem("DireccionesUsuario"); //PRUEBA PARA CARRITO
+    //localStorage.removeItem("DireccionesUsuario"); // anduvo bien la prueba, lo saque para no ocupar espacio en el local storage
     window.location = "index.html";
 
   })
