@@ -72,7 +72,7 @@ function CambiarUserPic(foto) {
 
     document.getElementById("UserPic").src = foto;
 
-    
+    $('#modalUploadPic').modal('hide')
 
 };
 
