@@ -6,7 +6,7 @@ let UsuarioLoggeado = localStorage.getItem("NombreUsuario");
 let DatosProfile = JSON.parse(localStorage.getItem("UserProfile"));
 let UserPic = localStorage.getItem("UserPic");
 
-function LlenarDatos(Datos){ // Me modifica los value de los input segun datos que haya guardados o no
+function LlenarDatos(Datos) { // Me modifica los value de los input segun datos que haya guardados o no
 
     if (Datos[0] != " " || Datos[0] != undefined) {
         document.getElementById("Correo").value = Datos[0];
@@ -34,16 +34,16 @@ function LlenarDatos(Datos){ // Me modifica los value de los input segun datos q
 
 
 
-function EditarPerfil(){ // me modifica los datos del perfil guardados en la memoria local
+function EditarPerfil() { // me modifica los datos del perfil guardados en la memoria local
 
-    
+
     document.getElementById("GCPerfil").setAttribute("class", "d-block"); //salta error pero funciona
 
 }
 
 
 
-function GuardarCambios(){
+function GuardarCambios() {
 
     localStorage.removeItem("UserProfile");
 
@@ -51,18 +51,18 @@ function GuardarCambios(){
 
     PerfilUsuario.push(document.getElementById("Correo").value, document.getElementById("1 Nombre").value, document.getElementById("2 Nombre").value, document.getElementById("1 Apellido").value, document.getElementById("2 Apellido").value, document.getElementById("Edad").value, document.getElementById("TelContact").value);
 
-    
+
     localStorage.setItem("UserProfile", JSON.stringify(PerfilUsuario));
 
     LlenarDatos(PerfilUsuario);
     //alert("datos guardados exitosamente!");
 
-    document.getElementById("GCPerfil").setAttribute("class", "d-none"); 
+    document.getElementById("GCPerfil").setAttribute("class", "d-none");
 
 }
 
 
-function CambiarUserPic(foto){
+function CambiarUserPic(foto) {
 
     localStorage.removeItem("UserPic");
     document.getElementById("UserPic").src = foto;
@@ -70,11 +70,17 @@ function CambiarUserPic(foto){
 
 }
 
+function CargarImagen() {
+
+
+
+}
+
 
 
 document.addEventListener("DOMContentLoaded", function (e) {
 
-    
+
 
     if (UsuarioLoggeado) { //SI EL USUARIO NO ESTA LOGGEADO NO HAY PERFIL
 
@@ -86,17 +92,27 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
             LlenarDatos(DatosProfile);
 
-            if(UserPic){
-                document.getElementById("UserPic").src = JSON.parse(UserPic) ;
-                
+            if (UserPic) {
+                document.getElementById("UserPic").src = JSON.parse(UserPic);
+
             } else {
                 document.getElementById("UserPic").src = "img/UserPicsPredet/GenericPic.png";
                 localStorage.setItem("UserPic", JSON.stringify("img/UserPicsPredet/GenericPic.png"));
             }
         };
-      
 
 
+        //ACA CAMBIO LA FOTO DE PERFIL
+        document.getElementById("UploadPic").addEventListener('change', function () {
+
+                var fr = new FileReader();
+                fr.onload = function () {
+                    //document.getElementById("UserPic").src = fr.result;
+                    CambiarUserPic(fr.result);
+                }
+
+                fr.readAsDataURL(this.files[0]);
+            })
 
 
     } else {
