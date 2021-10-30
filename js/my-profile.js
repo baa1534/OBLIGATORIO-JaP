@@ -76,11 +76,7 @@ function CambiarUserPic(foto) {
 
 };
 
-function CargarImagen() {
 
-
-
-}
 
 
 

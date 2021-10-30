@@ -69,16 +69,16 @@ let CostoEnvio = ""; // DEPENDERA EVENTUALMENTE DE LA DIRECCION DE ENVIO Y DEL O
 
 function MostrarDireccion(direccion) {
 
-    if (direccion[6].toUpperCase() == "URUGUAY") {
-        CostoEnvio = 0;
-    } else {
-        CostoEnvio = 100; // COSTO GENERICO EN DOLARES
-    };
+    //if (direccion[6].toUpperCase() == "URUGUAY") {
+       // CostoEnvio = 0;
+    //} else {
+        //CostoEnvio = 100; // COSTO GENERICO EN DOLARES
+    //};
 
-    ParaFinal[1] = CostoEnvio;
+    //ParaFinal[1] = CostoEnvio;
 
-    console.log(ParaFinal[0] + 40*ParaFinal[1]);
-    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + 40*ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40*ParaFinal[1]);
+    //console.log(ParaFinal[0] + 40*ParaFinal[1]);
+    //document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + 40*ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40*ParaFinal[1]);
 
     DirContent =
 
@@ -93,14 +93,14 @@ function MostrarDireccion(direccion) {
         + direccion[6] +
         ` <br>
     Teléfono: `+ direccion[7] +
-        ` <br>
-    <p style="text-align:right">
-    <strong> Subtotal envío: USD `+ CostoEnvio + `</strong>
-    <br>
-    <br> Tipo de cambio a $UY 40 <br> Subtotal envío: UYU `+ CostoEnvio / 40 +
+        ` <br>`
+    //<p style="text-align:right">
+    //<strong> Subtotal envío: USD `+ CostoEnvio + `</strong>
+    //<br>
+    //<br> Tipo de cambio a $UY 40 <br> Subtotal envío: UYU `+ CostoEnvio / 40 +
 
-        `</p>
-    `
+        //`</p>
+    //`
 
     document.getElementById("NombreDireccion").innerHTML = DirContent;
 
@@ -146,31 +146,45 @@ function MostrarFormularioDIR() {
 
     <form>
         <div class="form-group">
-            <label for="pais">País</label>
-            <input type="text" class="form-control" id="pais" aria-describedby="país">
+            <div class="row">
+                <div class="col">
+                    <label for="pais">País*</label>
+                    <input type="text" class="form-control" id="pais" aria-describedby="país">
+                </div>
+                <div class="col">
+                    <label for="ciudad">Ciudad*</label>
+                    <input type="text" class="form-control" id="ciudad" aria-describedby="ciudad">
+                </div>
+            </div>
         </div>
+        
         <div class="form-group">
-            <label for="ciudad">Ciudad</label>
-            <input type="text" class="form-control" id="ciudad" aria-describedby="ciudad">
+            <div class="row">
+                <div class="col">
+                    <label for="calle">Calle*</label>
+                    <input type="text" class="form-control" id="calle" aria-describedby="calle">
+                </div>
+                <div class="col-2">
+                    <label for="numpuerta">N° de puerta*</label>
+                    <input type="text" class="form-control" id="numpuerta" aria-describedby="número de puerta">
+                </div>
+                <div class="col">
+                    <label for="esquina">Esquina</label>
+                    <input type="text" class="form-control" id="esquina" aria-describedby="esquina" placeholder="Opcional">
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="calle">Calle</label>
-            <input type="text" class="form-control" id="calle" aria-describedby="calle">
-        </div>
-        <div class="form-group">
-            <label for="numpuerta">N° de puerta</label>
-            <input type="text" class="form-control" id="numpuerta" aria-describedby="número de puerta">
-        </div>
+        
         <div class="form-group">
             <label for="observaciones">Observaciones</label>
             <input type="text" class="form-control" id="observaciones" aria-describedby="observaciones" placeholder="Ej: apto, N° casilla">
         </div>
         <div class="form-group">
-            <label for="codigopostal">CP</label>
+            <label for="codigopostal">CP*</label>
             <input type="text" class="form-control" id="codigopostal" aria-describedby="código postal">
         </div>
         <div class="form-group">
-            <label for="tel">Teléfono de contacto</label>
+            <label for="tel">Teléfono de contacto*</label>
             <input type="text" class="form-control" id="tel" aria-describedby="teléfono de contacto" placeholder="Ingresar con código país">
         </div>
         <button type="button" class="btn btn-primary" onclick="PasarFormulario()">Listo!</button>
@@ -306,40 +320,58 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
                     ListaDeProductos = `
     
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row no-gutters">
-                        <div class="col-md-4">
-                            <img src=` + producto.src + ` class="card-img" alt=" Imagen ` + producto.name + `">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card my-3" >
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <img src=` + producto.src + ` class="card-img" alt=" Imagen ` + producto.name + `">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
 
-                                <h5 class="card-title">` + producto.name + /*` en la posicion `+ Indices +*/`</h5>
-                                <p class="card-text">` + producto.currency + " " + producto.unitCost + `</p>
+                                        <h5 class="card-title">` + producto.name + /*` en la posicion `+ Indices +*/`</h5>
+                                        <p class="card-text">` + producto.currency + " " + producto.unitCost + `</p>
                                 
-                                <p class="card-text">  
+                                        <p class="card-text">  
                                     
-                                    <div class="btn-group" id="canttype`+ producto.name + `">
-                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="cant`+ producto.name + `">
-                                            Qty: `+ producto.count + `
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 1, '` + Indices + `')" href="#">1</a>
-                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 2, '` + Indices + `')" href="#">2</a>
-                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 3, '` + Indices + `')" href="#">3</a>
-                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 4, '` + Indices + `')" href="#">4</a>
-                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 5, '` + Indices + `')" href="#">5</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Max. permitido por compra</a>
-                                        </div>
-                                    </div>
+                                            <div class="btn-group" id="canttype`+ producto.name + `">
+                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="cant`+ producto.name + `">
+                                                    Qty: `+ producto.count + `
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 1, '` + Indices + `')" href="#">1</a>
+                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 2, '` + Indices + `')" href="#">2</a>
+                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 3, '` + Indices + `')" href="#">3</a>
+                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 4, '` + Indices + `')" href="#">4</a>
+                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 5, '` + Indices + `')" href="#">5</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Max. permitido por compra</a>
+                                                </div>
+                                            </div>
                                     
-                                </p>
-                                <p class="card-text" style="text-align:right" id="subt`+ producto.name + `"> Subtotal (` + producto.count + ` items): ` + producto.currency + " " + producto.unitCost * producto.count + `</p>
+                                        </p>
+                                        
+                                        <p class="card-text" style="text-align:right" id="subt`+ producto.name + `"> Subtotal (` + producto.count + ` items): ` + producto.currency + " " + producto.unitCost * producto.count + `</p>
                                 
+                                </div>
+                            </div>
                         </div>
+                        
                     </div>
-                </div>`
+
+                    <div class="col">
+                    
+
+                    </div>    
+
+                    
+                    
+                </div>
+
+                                
+
+                `
 
 
                     Indices += 1;
@@ -365,8 +397,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 let TotalFinal = document.createElement("p");
                 document.getElementById("ListaProductosCarrito").appendChild(TotalFinal);
                 TotalFinal.style.textAlign = "right";
+                TotalFinal.className = "m-4"
                 TotalFinal.id = "TotalFinal";
 
+                //Caso inicial, valor por default envio standard
+                CostoEnvio = ParaFinal[0]*0.05
+                ParaFinal[1] = CostoEnvio;
+                console.log(ParaFinal[0] + 40*ParaFinal[1]);
+                document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD `+ ParaFinal[1]/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
+                document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
+           
 
                 //QUERIA QUE PASARA EL TOTAL EN LA MONEDA DE RELEVANCIA, QUE DECIDI QUE FUESE DOLARES EN CASO DE QUE AL MENOS ALGUNO DE LOS PRODUCTOS DEL CARRO ESTUVIESEN EN ESA MONEDA
                 //OTRA OPCION PODRIA HABER SIDO TENER DOS SUB TOTALES GENERALES EN LOS QUE  SE AGRUPARAN LOS MONTOS POR MONEDA, PERO ME PARECIO QUE NO ERA LO QUE SE PEDIA
@@ -437,20 +477,30 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         document.getElementById("opcionesMp").innerHTML = `
 
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="opcionesCE" id="efectivo" value="efectivo">
-            <label class="form-check-label" for="efectivo">
-            Efectivo
-            </label>
+        <div class="row py-2">
+                <div class="col">
+                    <label for="Bnk">Código SWIFT/BIC de banco emisor*</label>
+                    <input type="text" class="form-control" id="Bnk" aria-describedby="banco" minlength="8" maxlength="11" required>
+                </div>
+                <div class="col">
+                    <label for="Referencia">Referencia*</label>
+                    <input type="text" class="form-control" id="Referencia" aria-describedby="Referencia" required>
+                </div>
         </div>
 
-        <br>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="opcionesCE" id="debito" value="debito" checked>
-            <label class="form-check-label" for="debito">
-            Débito
-            </label>
+        <div class="row py-2">
+            <div class="col">
+                <label for="UploadVoucher">Comprobante de transferencia*</label>
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="UploadVoucher" aria-describedby="UploadVoucher" required>
+                        <label class="custom-file-label" for="UploadVoucher">Choose file</label>
+                    </div>
+                </div>
+            </div>
         </div>        
                        
 
@@ -461,24 +511,34 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         document.getElementById("MetodoPago").addEventListener("change", function () {
 
-            if (document.getElementById("MetodoPago").value == "CE") {
+            if (document.getElementById("MetodoPago").value == "TB") {
 
                 document.getElementById("opcionesMp").innerHTML = `
 
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="opcionesCE" id="efectivo" value="efectivo">
-            <label class="form-check-label" for="efectivo">
-            Efectivo
-            </label>
+                <div class="row py-2">
+                <div class="col">
+                    <label for="Bnk">Código SWIFT/BIC de banco emisor*</label>
+                    <input type="text" class="form-control" id="Bnk" aria-describedby="banco" minlength="8" maxlength="11" required>
+                </div>
+                <div class="col">
+                    <label for="Referencia">Referencia*</label>
+                    <input type="text" class="form-control" id="Referencia" aria-describedby="Referencia" required>
+                </div>
         </div>
 
-        <br>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="opcionesCE" id="debito" value="debito" checked>
-            <label class="form-check-label" for="debito">
-            Débito
-            </label>
+        <div class="row py-2">
+            <div class="col">
+                <label for="UploadVoucher">Comprobante de transferencia*</label>
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="UploadVoucher" aria-describedby="UploadVoucher" required>
+                        <label class="custom-file-label" for="UploadVoucher">Choose file</label>
+                    </div>
+                </div>
+            </div>
         </div>        
 
                     `;
@@ -517,6 +577,41 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         });
 
+        //------------------------------------------------- EVENTO SI CAMBIO EL TIPO DE ENVIO -----------------------------------
+
+        //Caso inicial, valor por default envio standard
+        CostoEnvio = ParaFinal[0]*0.05
+        ParaFinal[1] = CostoEnvio;
+        console.log(ParaFinal[0] + 40*ParaFinal[1]);
+        document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD `+ ParaFinal[1]/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
+        document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
+            
+
+        let result = document.querySelector('#opcionesTipoEnvio');
+        document.body.addEventListener('change', function (e) {
+            let target = e.target;
+            //let message;
+            switch (target.id) {
+                case 'EnvStd':
+                    CostoEnvio = ParaFinal[0]*0.05
+                    //message = 'El EnvStd radio btn fue seleccionado';
+                    break;
+                case 'EnvXprs':
+                    CostoEnvio = ParaFinal[0]*0.07
+                    //message = 'El EnvXprs radio btn fue seleccionado';
+                    break;
+                case 'EnvPrm':
+                    CostoEnvio = ParaFinal[0]*0.15
+                    //message = 'El EnvPrm radio btn fue seleccionado';
+                    break;
+            }
+
+            ParaFinal[1] = CostoEnvio;
+            console.log(ParaFinal[0] + 40*ParaFinal[1]);
+            document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD `+ ParaFinal[1]/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
+            document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
+            
+        });
         
 
     } else {
