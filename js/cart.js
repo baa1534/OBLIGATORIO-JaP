@@ -2,6 +2,12 @@
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 
+let UserTC = JSON.parse(localStorage.getItem("UserTC")); //Alguna tarjeta de crédito que tenga guardada
+let DirCompleta = undefined;
+let PagoCompleto = undefined;
+
+//------------------------------------------------------------------------------------------------------------
+
 let Total = 0;
 
 let TotalCE = 0;
@@ -21,8 +27,8 @@ function PrecioTotal() {
 
     ParaFinal[0] = Total;
 
-    console.log(ParaFinal[0] + 40*ParaFinal[1]);
-    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + 40*ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40*ParaFinal[1]);
+    //console.log(ParaFinal[0] + 40 * ParaFinal[1]);
+    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + 40 * ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40 * ParaFinal[1]);
 
 };
 
@@ -51,7 +57,7 @@ function CantProd(producto, moneda, PU, cant, indice) { // QUIERO QUE ME VAYA CA
         document.getElementById("TotalFinal").innerHTML = `<strong> Subtotal productos: UYU ` + Total + `</strong>`;
         document.getElementById("TotalFinal").innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: USD ` + Total / 40;
         //let aux = Total + 40 * ParaFinal[1];
-       // document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
+        // document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
     }
 
 
@@ -70,9 +76,9 @@ let CostoEnvio = ""; // DEPENDERA EVENTUALMENTE DE LA DIRECCION DE ENVIO Y DEL O
 function MostrarDireccion(direccion) {
 
     //if (direccion[6].toUpperCase() == "URUGUAY") {
-       // CostoEnvio = 0;
+    // CostoEnvio = 0;
     //} else {
-        //CostoEnvio = 100; // COSTO GENERICO EN DOLARES
+    //CostoEnvio = 100; // COSTO GENERICO EN DOLARES
     //};
 
     //ParaFinal[1] = CostoEnvio;
@@ -99,12 +105,12 @@ function MostrarDireccion(direccion) {
     //<br>
     //<br> Tipo de cambio a $UY 40 <br> Subtotal envío: UYU `+ CostoEnvio / 40 +
 
-        //`</p>
+    //`</p>
     //`
 
     document.getElementById("NombreDireccion").innerHTML = DirContent;
 
-
+    DirCompleta = true;
 
 }
 
@@ -187,7 +193,7 @@ function MostrarFormularioDIR() {
             <label for="tel">Teléfono de contacto*</label>
             <input type="text" class="form-control" id="tel" aria-describedby="teléfono de contacto" placeholder="Ingresar con código país">
         </div>
-        <button type="button" class="btn btn-primary" onclick="PasarFormulario()">Listo!</button>
+        <button type="button" class="btn btn-info" onclick="PasarFormulario()">Listo!</button>
     </form>
 `
     document.getElementById("NombreDireccion").innerHTML = DirContent;
@@ -252,37 +258,108 @@ Btn = `
 
 document.getElementById("CambiarDIRbtn").innerHTML = Btn;
 
+//--------------------------------------- GUARDAR DATOS TARJETA EN LOCALSTORAGE -------------------------------
+
+function GuardarDatosTarjeta() {
 
 
-//--------------------------------------- MOSTRAR DATOS DE TARJETA ---------------------------------
+    //if (Titular == "" || Numero == "" || Vencimiento == "" || CCV == "") {
+    //alert("Se deben completar todos los campos para ingreso de la tarjeta de crédito!");
 
 
-function ShowCard() {
+    if (!document.getElementById("FormularioTC").checkValidity()) {
 
-    let Titular = document.getElementById("titularTC");
-    let Numero = document.getElementById("numeroTC");
-    let Vencimiento = document.getElementById("vencimientoTC");
-    let CCV = document.getElementById("CCVTC");
-
-
-    if (Titular.value === "" || Numero.value === "" || Vencimiento.value === "" || CCV.value === "") {
         alert("Se deben completar todos los campos para ingreso de la tarjeta de crédito!");
 
     } else {
 
-        document.getElementById("MetodoPago").value = "TC";
-        document.getElementById("opcionesMp").innerHTML = `
+        $('#modalTC').modal('hide')
+
+        let TarjetaUsuario = [];
+
+        TarjetaUsuario.push(document.getElementById("titularTC").value, document.getElementById("numeroTC").value, document.getElementById("vencimientoTC").value, document.getElementById("CCVTC").value);
+
+        //console.log(TarjetaUsuario);
+
+        if (document.getElementById("RecordarTC").checked) {
+
+            localStorage.removeItem("UserTC");
+            localStorage.setItem("UserTC", JSON.stringify(TarjetaUsuario));
+
+        };
+
+        ShowCard(TarjetaUsuario);
+
+
+
+    };
+
+    document.getElementById("FormularioTC").classList.add('was-validated')
+};
+
+//--------------------------------------- MOSTRAR DATOS DE TARJETA ---------------------------------
+
+
+function ShowCard(Datos) {
+
+    //let Titular = document.getElementById("titularTC");
+    //let Numero = document.getElementById("numeroTC");
+    //let Vencimiento = document.getElementById("vencimientoTC");
+    //let CCV = document.getElementById("CCVTC");
+
+
+    //if (Datos[0] === "" || Datos[1] === "" || Datos[2] === "" || Datos[3] === "") {
+    //alert("Se deben completar todos los campos para ingreso de la tarjeta de crédito!");
+
+    // } else {
+
+    document.getElementById("MetodoPago").value = "TC";
+    document.getElementById("opcionesMp").innerHTML = `
 
         <strong> Titular </strong> <br>`
-            + Titular.value + `<br>
+        + Datos[0] + `<br>
         <strong> Número de tarjeta </strong> <br>`
-            + Numero.value + `<br>
+        + Datos[1] + `<br>
         <strong> Vencimiento </strong> <br>`
-            + Vencimiento.value
+        + Datos[2]
 
+    PagoCompleto = true;
 
-    }
+    // }
 };
+
+//---------------------------------PROCEDER AL CHECKOUT, CHEQUEO DE FORMULARIOS------------------------------------------------------------
+
+
+function ProcedeToCheckout() {
+
+    if (DirCompleta == undefined) {
+        alert("Debe completar la sección 'Dirección de envío'");
+    } else {
+
+        if (PagoCompleto == undefined) {
+
+            if (!document.getElementById("FormularioTB").checkValidity()) {
+
+                alert("Se deben completar todos los campos para pago por transferencia bancaria!");
+
+            } else {
+
+                PagoCompleto = true;
+
+            };
+
+            document.querySelector('#FormularioTB').classList.add('was-validated');
+
+        } else {
+            alert("Gracias por su compra!")
+        };
+
+    };
+
+
+};
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -401,12 +478,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 TotalFinal.id = "TotalFinal";
 
                 //Caso inicial, valor por default envio standard
-                CostoEnvio = ParaFinal[0]*0.05
+                CostoEnvio = ParaFinal[0] * 0.05
                 ParaFinal[1] = CostoEnvio;
-                console.log(ParaFinal[0] + 40*ParaFinal[1]);
-                document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD `+ ParaFinal[1]/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
-                document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
-           
+                //console.log(ParaFinal[0] + 40 * ParaFinal[1]);
+                document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
+                document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
+
 
                 //QUERIA QUE PASARA EL TOTAL EN LA MONEDA DE RELEVANCIA, QUE DECIDI QUE FUESE DOLARES EN CASO DE QUE AL MENOS ALGUNO DE LOS PRODUCTOS DEL CARRO ESTUVIESEN EN ESA MONEDA
                 //OTRA OPCION PODRIA HABER SIDO TENER DOS SUB TOTALES GENERALES EN LOS QUE  SE AGRUPARAN LOS MONTOS POR MONEDA, PERO ME PARECIO QUE NO ERA LO QUE SE PEDIA
@@ -475,33 +552,33 @@ document.addEventListener("DOMContentLoaded", function (e) {
         // SITUACION POR DEFAULT
 
 
+
         document.getElementById("opcionesMp").innerHTML = `
 
-        <div class="row py-2">
-                <div class="col">
-                    <label for="Bnk">Código SWIFT/BIC de banco emisor*</label>
-                    <input type="text" class="form-control" id="Bnk" aria-describedby="banco" minlength="8" maxlength="11" required>
-                </div>
-                <div class="col">
-                    <label for="Referencia">Referencia*</label>
-                    <input type="text" class="form-control" id="Referencia" aria-describedby="Referencia" required>
-                </div>
-        </div>
+                <form id="FormularioTB">
+                    <div class="row py-2">
+                        <div class="col">
+                            <label for="Bnk">Código SWIFT/BIC de banco emisor*</label>
+                            <input type="text" class="form-control" id="Bnk" aria-describedby="banco" minlength="8" maxlength="11" required>
+                        </div>
+                        <div class="col">
+                            <label for="Referencia">Referencia*</label>
+                            <input type="text" class="form-control" id="Referencia" aria-describedby="Referencia" required>
+                        </div>
+                    </div>
 
-        <div class="row py-2">
-            <div class="col">
-                <label for="UploadVoucher">Comprobante de transferencia*</label>
-                <div class="input-group ">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="UploadVoucher" aria-describedby="UploadVoucher" required>
-                        <label class="custom-file-label" for="UploadVoucher">Choose file</label>
-                    </div>
-                </div>
-            </div>
-        </div>        
+                    <div class="row py-2">
+                        <div class="col">
+                            <label for="UploadVoucher">Comprobante de transferencia*</label>
+                
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input form-control" id="UploadVoucher" accept=".pdf" required>
+                                <label class="custom-file-label" for="UploadVoucher" id="UploadVoucherLabel">Choose file</label>
+                            </div>
+                
+                        </div>
+                    </div> 
+                </form>        
                        
 
                     `;
@@ -513,33 +590,36 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
             if (document.getElementById("MetodoPago").value == "TB") {
 
+                PagoCompleto = undefined;
+
+                document.getElementById("EditTC").setAttribute("class", "btn btn-link d-none")
+
                 document.getElementById("opcionesMp").innerHTML = `
 
-                <div class="row py-2">
-                <div class="col">
-                    <label for="Bnk">Código SWIFT/BIC de banco emisor*</label>
-                    <input type="text" class="form-control" id="Bnk" aria-describedby="banco" minlength="8" maxlength="11" required>
-                </div>
-                <div class="col">
-                    <label for="Referencia">Referencia*</label>
-                    <input type="text" class="form-control" id="Referencia" aria-describedby="Referencia" required>
-                </div>
-        </div>
+                <form id="FormularioTB">
+                    <div class="row py-2">
+                        <div class="col">
+                            <label for="Bnk">Código SWIFT/BIC de banco emisor*</label>
+                            <input type="text" class="form-control" id="Bnk" aria-describedby="banco" minlength="8" maxlength="11" required>
+                        </div>
+                        <div class="col">
+                            <label for="Referencia">Referencia*</label>
+                            <input type="text" class="form-control" id="Referencia" aria-describedby="Referencia" required>
+                        </div>
+                    </div>
 
-        <div class="row py-2">
-            <div class="col">
-                <label for="UploadVoucher">Comprobante de transferencia*</label>
-                <div class="input-group ">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="UploadVoucher" aria-describedby="UploadVoucher" required>
-                        <label class="custom-file-label" for="UploadVoucher">Choose file</label>
-                    </div>
-                </div>
-            </div>
-        </div>        
+                    <div class="row py-2">
+                        <div class="col">
+                            <label for="UploadVoucher">Comprobante de transferencia*</label>
+                
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input form-control" id="UploadVoucher" accept=".pdf" required>
+                                <label class="custom-file-label" for="UploadVoucher" id="UploadVoucherLabel">Choose file</label>
+                            </div>
+                
+                        </div>
+                    </div> 
+                </form>       
 
                     `;
 
@@ -547,31 +627,27 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
             if (document.getElementById("MetodoPago").value == "TC") {
 
-                document.getElementById("opcionesMp").innerHTML = `
+                PagoCompleto = undefined;
 
-        <form>
-        <div class="form-group">
-            <label for="titularTC">Titular</label>
-            <input type="text" class="form-control" id="titularTC" aria-describedby="titular" placeholder="Tal cual aparece en el plástico">
-        </div>
-        <div class="form-group">
-            <label for="numeroTC">Número</label>
-            <input type="text" class="form-control" id="numeroTC" aria-describedby="número" placeholder="Sin espacios">
-        </div>
-        <div class="form-group">
-            <label for="vencimientoTC">Fecha de vencimiento</label>
-            <input type="text" class="form-control" id="vencimientoTC" aria-describedby="vencimiento" placeholder="mm/aa">
-        </div>
-        <div class="form-group">
-            <label for="CCVTC">CCV</label>
-            <input type="text" class="form-control" id="CCVTC" aria-describedby="CCV">
-        </div>
-        <button type="button" class="btn btn-primary" onclick="ShowCard()">Listo!</button>
-    </form>        
+                document.getElementById("EditTC").setAttribute("class", "btn btn-link d-block");
 
-                    `;
+                if (UserTC) {
 
-            }
+                    ShowCard(UserTC);
+
+                } else {
+
+                    //alert("no hay TC guardada!")
+
+                    document.getElementById("opcionesMp").innerHTML = `
+
+                    <p style="text-align: center"> Usted no tiene datos de tarjetas de crédito guardados </p>
+                    <div style="text-align: center"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalTC">Ingresar Datos</button> </div>
+               
+
+                    `};
+
+            };
 
 
 
@@ -580,12 +656,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
         //------------------------------------------------- EVENTO SI CAMBIO EL TIPO DE ENVIO -----------------------------------
 
         //Caso inicial, valor por default envio standard
-        CostoEnvio = ParaFinal[0]*0.05
+        CostoEnvio = ParaFinal[0] * 0.05
         ParaFinal[1] = CostoEnvio;
-        console.log(ParaFinal[0] + 40*ParaFinal[1]);
-        document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD `+ ParaFinal[1]/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
-        document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
-            
+        //console.log(ParaFinal[0] + 40 * ParaFinal[1]);
+        document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
+        document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
+
 
         let result = document.querySelector('#opcionesTipoEnvio');
         document.body.addEventListener('change', function (e) {
@@ -593,26 +669,36 @@ document.addEventListener("DOMContentLoaded", function (e) {
             //let message;
             switch (target.id) {
                 case 'EnvStd':
-                    CostoEnvio = ParaFinal[0]*0.05
+                    CostoEnvio = ParaFinal[0] * 0.05
                     //message = 'El EnvStd radio btn fue seleccionado';
                     break;
                 case 'EnvXprs':
-                    CostoEnvio = ParaFinal[0]*0.07
+                    CostoEnvio = ParaFinal[0] * 0.07
                     //message = 'El EnvXprs radio btn fue seleccionado';
                     break;
                 case 'EnvPrm':
-                    CostoEnvio = ParaFinal[0]*0.15
+                    CostoEnvio = ParaFinal[0] * 0.15
                     //message = 'El EnvPrm radio btn fue seleccionado';
                     break;
             }
 
             ParaFinal[1] = CostoEnvio;
-            console.log(ParaFinal[0] + 40*ParaFinal[1]);
-            document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD `+ ParaFinal[1]/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
-            document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
-            
+            //console.log(ParaFinal[0] + 40 * ParaFinal[1]);
+            document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
+            document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
+
         });
-        
+
+        // -------------------- PARA VISUALIZAR MAS FACILMENTE QUE YA HAY UN ARCHIVO CARGADO Y CUAL ES ------------------------
+
+        $(document).on('change', "#UploadVoucher", function () {
+
+            //console.log(this.files[0].name);
+            //console.log(document.getElementById("UploadVoucherLabel").textContent)
+            document.getElementById("UploadVoucherLabel").textContent = this.files[0].name;
+
+        });
+
 
     } else {
 

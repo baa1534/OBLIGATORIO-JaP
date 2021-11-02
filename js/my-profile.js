@@ -111,10 +111,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
             fr.onload = function () {
                 //document.getElementById("UserPic").src = fr.result;
                 CambiarUserPic(fr.result);
-            }
+            };
 
             fr.readAsDataURL(this.files[0]);
-        })
+        });
 
 
     } else {
