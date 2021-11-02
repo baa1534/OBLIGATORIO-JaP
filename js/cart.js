@@ -28,21 +28,21 @@ function PrecioTotal() {
     ParaFinal[0] = Total;
 
     if(document.getElementById("EnvStd").checked){
-        alert("estandar "+ParaFinal[0]*0.05);
+        //alert("estandar "+ParaFinal[0]*0.05);
         ParaFinal[1] = ParaFinal[0]*0.05;
     } else {
         if(document.getElementById("EnvXprs").checked){
-            alert("express"+ParaFinal[0]*0.07);
+            //alert("express"+ParaFinal[0]*0.07);
             ParaFinal[1] = ParaFinal[0]*0.07;
         } else {
-            alert("premium"+ParaFinal[0]*0.15);
+            //alert("premium"+ParaFinal[0]*0.15);
             ParaFinal[1] = ParaFinal[0]*0.15;
         };
     };
     
 
 
-    console.log(ParaFinal[0] + ParaFinal[1]);
+    //console.log(ParaFinal[0] + ParaFinal[1]);
     document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
     document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
 };
@@ -98,7 +98,7 @@ function MostrarDireccion(direccion) {
 
     //ParaFinal[1] = CostoEnvio;
 
-    console.log(ParaFinal[0] + 40*ParaFinal[1]);
+    //console.log(ParaFinal[0] + 40*ParaFinal[1]);
     document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + 40*ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40*ParaFinal[1]);
 
     DirContent =
@@ -495,7 +495,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 //Caso inicial, valor por default envio standard
                 CostoEnvio = ParaFinal[0] * 0.05
                 ParaFinal[1] = CostoEnvio;
-                console.log(ParaFinal[0] + ParaFinal[1]);
+                //console.log(ParaFinal[0] + ParaFinal[1]);
                 document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
                 document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
 
@@ -673,7 +673,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         //Caso inicial, valor por default envio standard
         CostoEnvio = ParaFinal[0] * 0.05
         ParaFinal[1] = CostoEnvio;
-        console.log(ParaFinal[0] + 40 * ParaFinal[1]);
+        //console.log(ParaFinal[0] + 40 * ParaFinal[1]);
         document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
         document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
 
@@ -698,7 +698,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             }
 
             ParaFinal[1] = CostoEnvio;
-            console.log(ParaFinal[0] + ParaFinal[1]);
+            //console.log(ParaFinal[0] + ParaFinal[1]);
             document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
             document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
 
