@@ -5,6 +5,7 @@
 let UserTC = JSON.parse(localStorage.getItem("UserTC")); //Alguna tarjeta de crédito que tenga guardada
 let DirCompleta = undefined;
 let PagoCompleto = undefined;
+var ListaProductos;
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -27,19 +28,19 @@ function PrecioTotal() {
 
     ParaFinal[0] = Total;
 
-    if(document.getElementById("EnvStd").checked){
+    if (document.getElementById("EnvStd").checked) {
         //alert("estandar "+ParaFinal[0]*0.05);
-        ParaFinal[1] = ParaFinal[0]*0.05;
+        ParaFinal[1] = ParaFinal[0] * 0.05;
     } else {
-        if(document.getElementById("EnvXprs").checked){
+        if (document.getElementById("EnvXprs").checked) {
             //alert("express"+ParaFinal[0]*0.07);
-            ParaFinal[1] = ParaFinal[0]*0.07;
+            ParaFinal[1] = ParaFinal[0] * 0.07;
         } else {
             //alert("premium"+ParaFinal[0]*0.15);
-            ParaFinal[1] = ParaFinal[0]*0.15;
+            ParaFinal[1] = ParaFinal[0] * 0.15;
         };
     };
-    
+
 
 
     //console.log(ParaFinal[0] + ParaFinal[1]);
@@ -99,7 +100,7 @@ function MostrarDireccion(direccion) {
     //ParaFinal[1] = CostoEnvio;
 
     //console.log(ParaFinal[0] + 40*ParaFinal[1]);
-    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD `+ (ParaFinal[0] + 40*ParaFinal[1])/40 +`</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40*ParaFinal[1]);
+    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + 40 * ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + 40 * ParaFinal[1]);
 
     DirContent =
 
@@ -375,6 +376,144 @@ function ProcedeToCheckout() {
 
 };
 
+function MostrarPoductos(Productos) {
+
+    document.getElementById("ListaProductosCarrito").innerHTML = "";
+
+    let Indices = 0;
+
+    Productos.forEach(producto => {
+
+        let ListaDeProductos = "";
+
+
+        ListaDeProductos = `
+
+    <div class="row">
+        <div class="col-6">
+            <div class="card my-3" >
+                <div class="row ">
+                    <div class="col-md-4">
+                        <img src=` + producto.src + ` class="card-img" alt=" Imagen ` + producto.name + `">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+
+                            <h5 class="card-title">` + producto.name + /*` en la posicion `+ Indices +*/`</h5>
+                            <p class="card-text">` + producto.currency + " " + producto.unitCost + `</p>
+                    
+                            <p class="card-text">  
+                                <div class="row">
+                                <div class="col">
+                                    <div class="btn-group" id="canttype`+ producto.name + `">
+                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="cant`+ producto.name + `">
+                                            Qty: `+ producto.count + `
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 1, '` + Indices + `')" href="#">1</a>
+                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 2, '` + Indices + `')" href="#">2</a>
+                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 3, '` + Indices + `')" href="#">3</a>
+                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 4, '` + Indices + `')" href="#">4</a>
+                                            <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 5, '` + Indices + `')" href="#">5</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Max. permitido por compra</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-danger text-right" onclick="QuitarProducto('`+ Indices + `')">
+                                        Quitar
+                                    </button>
+                                </div>
+                                </div>
+                        
+                            </p>
+                            
+                            <p class="card-text" style="text-align:right" id="subt`+ producto.name + `"> Subtotal (` + producto.count + ` items): ` + producto.currency + " " + producto.unitCost * producto.count + `</p>
+                    
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="col">
+        
+
+        </div>    
+
+        
+        
+    </div>
+
+                    
+
+    `
+
+
+        Indices += 1;
+
+        document.getElementById("ListaProductosCarrito").innerHTML += ListaDeProductos;
+
+
+
+        /* if (producto.currency == "USD"){
+        Total += 40*producto.unitCost*producto.count;
+        } else {
+            Total += producto.unitCost*producto.count;
+        };*/
+
+    });
+
+
+    PrecioTotal();
+
+
+
+    let TotalFinal = document.createElement("p");
+    document.getElementById("ListaProductosCarrito").appendChild(TotalFinal);
+    TotalFinal.style.textAlign = "right";
+    TotalFinal.className = "m-4"
+    TotalFinal.id = "TotalFinal";
+
+    //Caso inicial, valor por default envio standard
+    CostoEnvio = ParaFinal[0] * 0.05
+    ParaFinal[1] = CostoEnvio;
+    //console.log(ParaFinal[0] + ParaFinal[1]);
+    document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
+    document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
+
+
+    //QUERIA QUE PASARA EL TOTAL EN LA MONEDA DE RELEVANCIA, QUE DECIDI QUE FUESE DOLARES EN CASO DE QUE AL MENOS ALGUNO DE LOS PRODUCTOS DEL CARRO ESTUVIESEN EN ESA MONEDA
+    //OTRA OPCION PODRIA HABER SIDO TENER DOS SUB TOTALES GENERALES EN LOS QUE  SE AGRUPARAN LOS MONTOS POR MONEDA, PERO ME PARECIO QUE NO ERA LO QUE SE PEDIA
+    if (PyC.moneda.indexOf("USD") != -1) {
+        TotalFinal.innerHTML += `<strong> Subtotal productos: USD ` + Total / 40 + `</strong>`;
+        TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: UYU ` + Total;
+        //let aux = Total / 40 + ParaFinal[1];
+        //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: USD ` + aux + `</strong>`;
+    } else {
+        TotalFinal.innerHTML += `<strong> Subtotal productos: UYU ` + Total + `</strong>`;
+        TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: USD ` + Total / 40;
+        //let aux = Total + 40 * ParaFinal[1];
+        //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
+    }
+
+
+
+};
+
+
+function QuitarProducto(ElementoQuitado) {
+
+    ListaProductos.splice(ElementoQuitado, 1);
+    PyC.precios.splice(ElementoQuitado, 1);
+    PyC.cantidades.splice(ElementoQuitado, 1);
+    PyC.moneda.splice(ElementoQuitado, 1);
+
+    MostrarPoductos(ListaProductos);
+
+};
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -382,7 +521,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 
 
-    document.getElementById("ListaProductosCarrito").innerHTML = "";
 
     let CartOwner = localStorage.getItem("NombreUsuario");
 
@@ -395,124 +533,32 @@ document.addEventListener("DOMContentLoaded", function (e) {
         getJSONData(CART_INFO_URL).then(function (result) {
             if (result.status === "ok") {
 
-                let Indices = 0;
+                ListaProductos = result.data.articles;
 
-                result.data.articles.forEach(producto => {
-
-                    let ListaDeProductos = "";
+                ListaProductos.forEach(producto => {
 
                     if (producto.currency == "USD") {
+
                         PyC.precios.push(40 * producto.unitCost);
 
                     } else {
+
                         PyC.precios.push(producto.unitCost);
-                    }
+                    };
+
                     PyC.cantidades.push(producto.count);
                     PyC.moneda.push(producto.currency);
 
-                    ListaDeProductos = `
-    
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card my-3" >
-                            <div class="row ">
-                                <div class="col-md-4">
-                                    <img src=` + producto.src + ` class="card-img" alt=" Imagen ` + producto.name + `">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-
-                                        <h5 class="card-title">` + producto.name + /*` en la posicion `+ Indices +*/`</h5>
-                                        <p class="card-text">` + producto.currency + " " + producto.unitCost + `</p>
-                                
-                                        <p class="card-text">  
-                                    
-                                            <div class="btn-group" id="canttype`+ producto.name + `">
-                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="cant`+ producto.name + `">
-                                                    Qty: `+ producto.count + `
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 1, '` + Indices + `')" href="#">1</a>
-                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 2, '` + Indices + `')" href="#">2</a>
-                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 3, '` + Indices + `')" href="#">3</a>
-                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 4, '` + Indices + `')" href="#">4</a>
-                                                    <a class="dropdown-item" onclick="CantProd('`+ producto.name + `', '` + producto.currency + `', '` + producto.unitCost + `', 5, '` + Indices + `')" href="#">5</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">Max. permitido por compra</a>
-                                                </div>
-                                            </div>
-                                    
-                                        </p>
-                                        
-                                        <p class="card-text" style="text-align:right" id="subt`+ producto.name + `"> Subtotal (` + producto.count + ` items): ` + producto.currency + " " + producto.unitCost * producto.count + `</p>
-                                
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="col">
-                    
-
-                    </div>    
-
-                    
-                    
-                </div>
-
-                                
-
-                `
-
-
-                    Indices += 1;
-
-                    document.getElementById("ListaProductosCarrito").innerHTML += ListaDeProductos;
-
-
-
-                    /* if (producto.currency == "USD"){
-                    Total += 40*producto.unitCost*producto.count;
-                    } else {
-                        Total += producto.unitCost*producto.count;
-                    };*/
-
                 });
 
+                console.log(PyC);
+
+                MostrarPoductos(ListaProductos);
 
 
-                PrecioTotal();
 
 
 
-                let TotalFinal = document.createElement("p");
-                document.getElementById("ListaProductosCarrito").appendChild(TotalFinal);
-                TotalFinal.style.textAlign = "right";
-                TotalFinal.className = "m-4"
-                TotalFinal.id = "TotalFinal";
-
-                //Caso inicial, valor por default envio standard
-                CostoEnvio = ParaFinal[0] * 0.05
-                ParaFinal[1] = CostoEnvio;
-                //console.log(ParaFinal[0] + ParaFinal[1]);
-                document.getElementById("CostoEnvio").innerHTML = ` <br> <strong> Total: USD ` + ParaFinal[1] / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + ParaFinal[1];
-                document.getElementById("FinalFinal").innerHTML = `<strong> Total: USD ` + (ParaFinal[0] + ParaFinal[1]) / 40 + `</strong> <br> <br> Tipo de cambio a $UY 40 <br> Total: UYU ` + (ParaFinal[0] + ParaFinal[1]);
-
-
-                //QUERIA QUE PASARA EL TOTAL EN LA MONEDA DE RELEVANCIA, QUE DECIDI QUE FUESE DOLARES EN CASO DE QUE AL MENOS ALGUNO DE LOS PRODUCTOS DEL CARRO ESTUVIESEN EN ESA MONEDA
-                //OTRA OPCION PODRIA HABER SIDO TENER DOS SUB TOTALES GENERALES EN LOS QUE  SE AGRUPARAN LOS MONTOS POR MONEDA, PERO ME PARECIO QUE NO ERA LO QUE SE PEDIA
-                if (PyC.moneda.indexOf("USD") != -1) {
-                    TotalFinal.innerHTML += `<strong> Subtotal productos: USD ` + Total / 40 + `</strong>`;
-                    TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: UYU ` + Total;
-                    //let aux = Total / 40 + ParaFinal[1];
-                    //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: USD ` + aux + `</strong>`;
-                } else {
-                    TotalFinal.innerHTML += `<strong> Subtotal productos: UYU ` + Total + `</strong>`;
-                    TotalFinal.innerHTML += `<br> <br> Tipo de cambio a $UY 40 <br> Subtotal productos: USD ` + Total / 40;
-                    //let aux = Total + 40 * ParaFinal[1];
-                    //document.getElementById("FinalFinal").innerHTML = `<strong> Total con envío: UYU ` + aux + `</strong>`;
-                }
 
             } else { alert("problemas al cargar JSON INFO") };
 
